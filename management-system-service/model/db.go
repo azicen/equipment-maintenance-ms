@@ -34,6 +34,18 @@ func InitDatabase() {
 	migration()
 }
 
+//执行数据迁移
+func migration() {
+	//自动迁移模式
+	GetDB().AutoMigrate(&User{})
+	GetDB().AutoMigrate(&Maintain{})
+	GetDB().AutoMigrate(&Group{})
+	GetDB().AutoMigrate(&Equipment{})
+	GetDB().AutoMigrate(&EquipmentType{})
+	GetDB().AutoMigrate(&EquipmentRelationalGroup{})
+	GetDB().AutoMigrate(&UserRelationalGroup{})
+}
+
 func GetDB() *gorm.DB {
 	return DB
 }

@@ -2,8 +2,9 @@ package main
 
 import (
 	"management-system-server/conf"
-	"management-system-server/util"
+	"management-system-server/model"
 	"management-system-server/service"
+	"management-system-server/util"
 )
 
 func main() {
@@ -11,5 +12,6 @@ func main() {
 	conf.Init()
 
 	util.InitLog()
+	model.InitDatabase()
 	service.Init()
 }
