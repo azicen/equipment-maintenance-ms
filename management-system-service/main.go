@@ -2,7 +2,7 @@ package main
 
 import (
 	"management-system-server/conf"
-	"management-system-server/model"
+	"management-system-server/dao"
 	"management-system-server/service"
 	"management-system-server/util"
 )
@@ -12,6 +12,6 @@ func main() {
 	conf.Init()
 
 	util.InitLog()
-	model.InitDatabase()
+	dao.New()
 	service.Init()
 }

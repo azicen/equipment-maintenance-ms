@@ -1,6 +1,7 @@
 package middleware
 
 import (
+	"management-system-server/dao"
 	"management-system-server/model"
 	"management-system-server/serializer"
 
@@ -14,7 +15,7 @@ func CurrentUser() gin.HandlerFunc {
 		session := sessions.Default(c)
 		uid := session.Get("user_id")
 		if uid != nil {
-			user, err := model.GetEmployee(uid)
+			user, err := dao.GetDao().GetUser(c, uid)
 			if err == nil {
 				c.Set("user", &user)
 			}
@@ -26,8 +27,8 @@ func CurrentUser() gin.HandlerFunc {
 //AuthRequired 需要登录
 func AuthRequired() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		if employee, _ := c.Get("user"); employee != nil {
-			if _, ok := employee.(*model.Employee); ok {
+		if user, _ := c.Get("user"); user != nil {
+			if _, ok := user.(*model.User); ok {
 				c.Next()
 				return
 			}
