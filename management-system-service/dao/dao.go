@@ -46,8 +46,8 @@ func NewMySQL() (db *gorm.DB, err error) {
 	db.AutoMigrate(&model.Group{})
 	db.AutoMigrate(&model.Equipment{})
 	db.AutoMigrate(&model.EquipmentType{})
-	db.AutoMigrate(&model.EquipmentRelationalGroup{})
-	db.AutoMigrate(&model.UserRelationalGroup{})
+	db.AutoMigrate(&model.EquipmentInGroup{})
+	db.AutoMigrate(&model.UserInGroup{})
 
 	return
 }

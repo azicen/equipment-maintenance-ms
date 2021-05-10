@@ -1,6 +1,8 @@
 package dao
 
 import (
+	"bytes"
+	"errors"
 	"management-system-server/model"
 
 	"github.com/gin-gonic/gin"
@@ -31,19 +33,18 @@ func (d *Dao) DelGroup(c *gin.Context, id interface{}) (err error) {
 	return
 }
 
-
 //AddUserInGroup 添加用户与权限组的关系
-func (d *Dao) AddUserInGroup(c *gin.Context, groupId uint, userId uint) (err error) {
-	urg := model.UserRelationalGroup{
-		GroupId: groupId,
-		UserId:  userId,
+func (d *Dao) AddUserInGroup(c *gin.Context, groupID uint, userID uint) (err error) {
+	urg := model.UserInGroup{
+		GroupID: groupID,
+		UserID:  userID,
 	}
 	err = d.GetDB().Create(&urg).Error
 	return
 }
 
 //GetUserInGroup 用ID获取用户与权限组的关系
-func (d *Dao) GetUserInGroup(c *gin.Context, id interface{}) (m model.UserRelationalGroup, err error) {
+func (d *Dao) GetUserInGroup(c *gin.Context, id interface{}) (m model.UserInGroup, err error) {
 	err = d.GetDB().First(&m, id).Error
 	return
 }
@@ -58,19 +59,18 @@ func (d *Dao) DelUserInGroup(c *gin.Context, id interface{}) (err error) {
 	return
 }
 
-
 //AddEquipmentInGroup 添加设备类型与权限组
-func (d *Dao) AddEquipmentInGroup(groupId uint, equipmentId uint) (err error) {
-	urg := model.EquipmentRelationalGroup{
-		GroupId:     groupId,
-		EquipmentId: equipmentId,
+func (d *Dao) AddEquipmentInGroup(groupID uint, equipmentID uint) (err error) {
+	urg := model.EquipmentInGroup{
+		GroupID:     groupID,
+		EquipmentID: equipmentID,
 	}
 	err = d.GetDB().Create(&urg).Error
 	return
 }
 
 //GetEquipmentInGroup 用ID获取设备与权限组的关系
-func (d *Dao) GetEquipmentInGroup(c *gin.Context, id interface{}) (m model.EquipmentRelationalGroup, err error) {
+func (d *Dao) GetEquipmentInGroup(c *gin.Context, id interface{}) (m model.EquipmentInGroup, err error) {
 	err = d.GetDB().First(&m, id).Error
 	return
 }
@@ -82,5 +82,35 @@ func (d *Dao) DelEquipmentInGroup(c *gin.Context, id interface{}) (err error) {
 		return
 	}
 	err = d.GetDB().Delete(erg).Error
-	return 
+	return
+}
+
+//GetHttpGroupInfo 获取权限组http消息
+func GetHttpGroupInfo(c *gin.Context) (info model.HttpGroupInfo, err error) {
+	err = c.BindJSON(&info)
+	if err != nil {
+		return
+	}
+	errB := new(bytes.Buffer)
+	if info.ID <= 0 {
+		errB.WriteString("id, ")
+	}
+	switch info.Tpye {
+	case model.HttpTpyeAdd:
+	case model.HttpTpyeChange:
+		if info.Name == "" {
+			errB.WriteString("name, ")
+		}
+		break
+	case model.HttpTpyeDelete:
+		break
+	default:
+		errB.WriteString("type, ")
+		break
+	}
+	if errB.Len() > 0 {
+		errB.WriteString("数据非法。")
+		err = errors.New(errB.String())
+	}
+	return
 }

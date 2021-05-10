@@ -1,6 +1,8 @@
 package dao
 
 import (
+	"bytes"
+	"errors"
 	"management-system-server/model"
 
 	"github.com/gin-gonic/gin"
@@ -29,8 +31,8 @@ func (d *Dao) GetUser(c *gin.Context, id interface{}) (m model.User, err error) 
 	return
 }
 
-//SetPassword 设置密码
-func (d *Dao) SetPassword(c *gin.Context, id interface{}, password string) (err error) {
+//SetUserPassword 设置密码
+func (d *Dao) SetUserPassword(c *gin.Context, id interface{}, password string) (err error) {
 	bytes, err := bcrypt.GenerateFromPassword([]byte(password), PassWordCost)
 	if err != nil {
 		return
@@ -44,8 +46,8 @@ func (d *Dao) SetPassword(c *gin.Context, id interface{}, password string) (err 
 	return
 }
 
-//CheckPassword 校验密码
-func (d *Dao) CheckPassword(c *gin.Context, id interface{}, password string) bool {
+//CheckUserPassword 校验密码
+func (d *Dao) CheckUserPassword(c *gin.Context, id interface{}, password string) bool {
 	u, err := d.GetUser(c, id)
 	if err != nil {
 		return false
@@ -54,8 +56,8 @@ func (d *Dao) CheckPassword(c *gin.Context, id interface{}, password string) boo
 	return err == nil
 }
 
-//SetStatus 设置账号状态
-func (d *Dao) SetStatus(c *gin.Context, id interface{}, status uint8) (err error) {
+//SetUserStatus 设置账号状态
+func (d *Dao) SetUserStatus(c *gin.Context, id interface{}, status uint8) (err error) {
 	u, err := d.GetUser(c, id)
 	if err != nil {
 		return
@@ -72,5 +74,45 @@ func (d *Dao) DelUser(c *gin.Context, id interface{}) (err error) {
 		return
 	}
 	err = d.GetDB().Save(u).Error
+	return
+}
+
+//GetHttpUserInfo 获取用户http消息
+func (d *Dao) GetHttpUserInfo(c *gin.Context) (info model.HttpUserInfo, err error) {
+	err = c.BindJSON(&info)
+	if err != nil {
+		return
+	}
+	errB := new(bytes.Buffer)
+	if info.ID <= 0 {
+		errB.WriteString("id, ")
+	}
+	switch info.Tpye {
+	case model.HttpTpyeAdd:
+		if info.Name == "" {
+			errB.WriteString("name, ")
+		}
+		if info.Password == "" {
+			errB.WriteString("password, ")
+		}
+		if info.Status <= 0 {
+			errB.WriteString("status, ")
+		}
+		break
+	case model.HttpTpyeDelete:
+		break
+	case model.HttpTpyeChange:
+		if info.Name == "" && info.Password == "" && info.Status <= 0 && len(info.GroupID) == 0 {
+			errB.WriteString("name, password, status, group_id, ")
+		}
+		break
+	default:
+		errB.WriteString("type, ")
+		break
+	}
+	if errB.Len() > 0 {
+		errB.WriteString("数据非法。")
+		err = errors.New(errB.String())
+	}
 	return
 }
