@@ -6,11 +6,23 @@ import (
 	"github.com/jinzhu/gorm"
 )
 
+//Maintain 维护表单数据库模型
 type Maintain struct {
 	gorm.Model
-	UserId      uint        `gorm:"not null"` //维护表单发起用户
-	EquipmentId uint        `gorm:"not null"` //维护设备id
+	UserID      uint       `gorm:"not null"` //维护表单发起用户
+	EquipmentID uint       `gorm:"not null"` //维护设备id
 	Date        *time.Time `gorm:"not null"` //维护日期
-	Status      string     `gorm:"not null"` //设备状态
+	Status      uint8      `gorm:"not null"` //设备状态
 	Remark      string     `gorm:"not null"` //异常信息
+}
+
+//HttpMaintainInfo 维护表单http消息模型
+type HttpMaintainInfo struct {
+	ID          uint         `form:"id" json:"id" binding:"required"`
+	UserID      uint         `form:"user_id" json:"user_id" binding:"required"`
+	EquipmentID uint         `form:"equipment_id" json:"equipment_id" binding:"required"`
+	Date        uint64       `form:"date" json:"date" binding:"required"`
+	Status      uint8        `form:"status" json:"status" binding:"required"`
+	Remark      string       `form:"remark" json:"remark" binding:"required"`
+	Tpye        HttpTpyeEnum `form:"type" json:"type" binding:"required"`
 }

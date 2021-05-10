@@ -2,9 +2,9 @@ package model
 
 import "github.com/jinzhu/gorm"
 
-//UserRelationalGroup 人员属于的权限组
-type UserRelationalGroup struct {
+//UserInGroup 人员属于的权限组 数据库模型
+type UserInGroup struct {
 	gorm.Model
-	GroupId uint `gorm:"not null"`
-	UserId  uint `gorm:"not null"`
+	GroupID uint `gorm:"not null"`
+	UserID  uint `gorm:"not null"`
 }
