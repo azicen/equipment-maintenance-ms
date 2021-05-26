@@ -9,28 +9,49 @@ import (
 //Equipment 设备数据库模型
 type Equipment struct {
 	gorm.Model
-	Name         string     `gorm:"not null"`
-	Location     string     `gorm:"not null"` //地点
-	Status       uint8      `gorm:"not null"` //状态
-	Date         *time.Time `gorm:"not null"` //近期维护时间
-	StartDate    *time.Time `gorm:"not null"` //开始服役时间
-	Deadline     *time.Time `gorm:"not null"` //结束服役时间
-	TypeID       uint       `gorm:"not null"` //设备类型id
-	UserID       uint       `gorm:"not null"` //创建用户id
-	CreationDate *time.Time `gorm:"not null"` //创建时间
+	Name         string    `gorm:"not null"`
+	Location     string    `gorm:"not null"` //地点
+	Status       uint8     `gorm:"not null"` //状态
+	Date         time.Time `gorm:"not null"` //近期维护时间
+	StartDate    time.Time `gorm:"not null"` //开始服役时间
+	Deadline     time.Time `gorm:"not null"` //结束服役时间
+	TypeID       uint      `gorm:"not null"` //设备类型id
+	UserID       uint      `gorm:"not null"` //创建用户id
+	CreationDate time.Time `gorm:"not null"` //创建时间
 }
 
-//HttpEquipmentInfo 设备http消息模型
-type HttpEquipmentInfo struct {
-	ID        uint         `form:"id" json:"id" binding:"required"`
-	Name      string       `form:"name" json:"name"`
-	GroupID   []uint       `form:"group_id" json:"group_id"`
-	Location  string       `form:"location" json:"location"`
-	Status    uint8        `form:"status" json:"status"`
-	Date      uint64       `form:"date" json:"date"`
-	StartDate uint64       `form:"start_date" json:"start_date"`
-	Deadline  uint64       `form:"deadline" json:"deadline"`
-	TypeID    uint         `form:"type_id" json:"type_id"`
-	UserID    uint         `form:"user_id" json:"user_id"`
-	Tpye      HttpTpyeEnum `form:"type" json:"type" binding:"required"`
+//HTTPAddEquipmentInfo HTTP消息模型AddEquipment
+type HTTPAddEquipmentInfo struct {
+	Name         string `form:"name" json:"name" binding:"required"`
+	Location     string `form:"location" json:"location" binding:"required"`
+	Status       uint8  `form:"status" json:"status" binding:"required"`
+	Date         uint64 `form:"date" json:"date" binding:"required"`
+	StartDate    uint64 `form:"start_date" json:"start_date" binding:"required"`
+	Deadline     uint64 `form:"deadline" json:"deadline" binding:"required"`
+	TypeID       uint   `form:"type_id" json:"type_id" binding:"required"`
+	UserID       uint   `form:"user_id" json:"user_id" binding:"required"`
+	CreationDate uint64 `form:"creation_date" json:"creation_date" binding:"required"`
+}
+
+//HTTPAddEquipmentInfo HTTP回复模型AddEquipment
+type HTTPAddEquipmentResponse struct {
+	ID uint `form:"id" json:"id" binding:"required"`
+}
+
+//HTTPGetEquipmentInfo HTTP消息模型GetEquipment
+type HTTPGetEquipmentInfo struct {
+	ID uint `form:"id" json:"id" binding:"required"`
+}
+
+//HTTPGetEquipmentInfo HTTP回复模型GetEquipment
+type HTTPGetEquipmentResponse struct {
+	Name         string `form:"name" json:"name" binding:"required"`
+	Location     string `form:"location" json:"location" binding:"required"`
+	Status       uint8  `form:"status" json:"status" binding:"required"`
+	Date         uint64 `form:"date" json:"date" binding:"required"`
+	StartDate    uint64 `form:"start_date" json:"start_date" binding:"required"`
+	Deadline     uint64 `form:"deadline" json:"deadline" binding:"required"`
+	TypeID       uint   `form:"type_id" json:"type_id" binding:"required"`
+	UserID       uint   `form:"user_id" json:"user_id" binding:"required"`
+	CreationDate uint64 `form:"creation_date" json:"creation_date" binding:"required"`
 }

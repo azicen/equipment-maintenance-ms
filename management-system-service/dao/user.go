@@ -1,11 +1,9 @@
 package dao
 
 import (
-	"bytes"
-	"errors"
+	"management-system-server/core"
 	"management-system-server/model"
 
-	"github.com/gin-gonic/gin"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -15,24 +13,24 @@ const (
 )
 
 //AddUser 添加用户
-func (d *Dao) AddUser(c *gin.Context, name string, password string, status uint8) (err error) {
-	u := model.User{
+func (d *Dao) AddUser(c *core.Context, name string, password string, status uint8) (m model.User, err error) {
+	m = model.User{
 		Name:     name,
 		Password: password,
 		Status:   status,
 	}
-	err = d.GetDB().Create(&u).Error
+	err = d.GetDB().Create(&m).Error
 	return
 }
 
 //GetUser 用ID获取员工
-func (d *Dao) GetUser(c *gin.Context, id interface{}) (m model.User, err error) {
+func (d *Dao) GetUser(c *core.Context, id interface{}) (m model.User, err error) {
 	err = d.GetDB().First(&m, id).Error
 	return
 }
 
 //SetUserPassword 设置密码
-func (d *Dao) SetUserPassword(c *gin.Context, id interface{}, password string) (err error) {
+func (d *Dao) SetUserPassword(c *core.Context, id interface{}, password string) (err error) {
 	bytes, err := bcrypt.GenerateFromPassword([]byte(password), PassWordCost)
 	if err != nil {
 		return
@@ -47,7 +45,7 @@ func (d *Dao) SetUserPassword(c *gin.Context, id interface{}, password string) (
 }
 
 //CheckUserPassword 校验密码
-func (d *Dao) CheckUserPassword(c *gin.Context, id interface{}, password string) bool {
+func (d *Dao) CheckUserPassword(c *core.Context, id interface{}, password string) bool {
 	u, err := d.GetUser(c, id)
 	if err != nil {
 		return false
@@ -57,7 +55,7 @@ func (d *Dao) CheckUserPassword(c *gin.Context, id interface{}, password string)
 }
 
 //SetUserStatus 设置账号状态
-func (d *Dao) SetUserStatus(c *gin.Context, id interface{}, status uint8) (err error) {
+func (d *Dao) SetUserStatus(c *core.Context, id interface{}, status uint8) (err error) {
 	u, err := d.GetUser(c, id)
 	if err != nil {
 		return
@@ -68,7 +66,7 @@ func (d *Dao) SetUserStatus(c *gin.Context, id interface{}, status uint8) (err e
 }
 
 //DelUser 删除账号
-func (d *Dao) DelUser(c *gin.Context, id interface{}) (err error) {
+func (d *Dao) DelUser(c *core.Context, id interface{}) (err error) {
 	u, err := d.GetUser(c, id)
 	if err != nil {
 		return
@@ -77,42 +75,27 @@ func (d *Dao) DelUser(c *gin.Context, id interface{}) (err error) {
 	return
 }
 
-//GetHttpUserInfo 获取用户http消息
-func (d *Dao) GetHttpUserInfo(c *gin.Context) (info model.HttpUserInfo, err error) {
-	err = c.BindJSON(&info)
-	if err != nil {
-		return
-	}
-	errB := new(bytes.Buffer)
-	if info.ID <= 0 {
-		errB.WriteString("id, ")
-	}
-	switch info.Tpye {
-	case model.HttpTpyeAdd:
-		if info.Name == "" {
-			errB.WriteString("name, ")
-		}
-		if info.Password == "" {
-			errB.WriteString("password, ")
-		}
-		if info.Status <= 0 {
-			errB.WriteString("status, ")
-		}
-		break
-	case model.HttpTpyeDelete:
-		break
-	case model.HttpTpyeChange:
-		if info.Name == "" && info.Password == "" && info.Status <= 0 && len(info.GroupID) == 0 {
-			errB.WriteString("name, password, status, group_id, ")
-		}
-		break
-	default:
-		errB.WriteString("type, ")
-		break
-	}
-	if errB.Len() > 0 {
-		errB.WriteString("数据非法。")
-		err = errors.New(errB.String())
-	}
+//GetUserGroups 获取用户所在的权限组
+func (d *Dao) GetUserGroups(c *core.Context, id interface{}) (m []model.UserInGroup, err error) {
+	//// SELECT * FROM user_in_group WHERE user_id = id;
+	err = d.GetDB().Where("user_id = ?", id).Find(&m).Error
 	return
+}
+
+//BindHTTPAddUserInfo 
+func (d *Dao) BindHTTPAddUserInfo(c *core.Context) (info model.HTTPAddUserInfo, err error) {
+    err = c.BindJSON(&info)
+    if err != nil {
+        return
+    }
+    return
+}
+
+//BindHTTPGetUserBasisInfo 
+func (d *Dao) BindHTTPGetUserBasisInfo(c *core.Context) (info model.HTTPGetUserBasisInfo, err error) {
+    err = c.BindJSON(&info)
+    if err != nil {
+        return
+    }
+    return
 }

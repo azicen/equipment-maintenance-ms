@@ -8,9 +8,21 @@ type Group struct {
 	Name string `gorm:"not null"`
 }
 
-//HttpGroupInfo 权限组http消息模型
-type HttpGroupInfo struct {
-	ID   uint         `form:"id" json:"id" binding:"required"`
-	Name string       `form:"name" json:"name"`
-	Tpye HttpTpyeEnum `form:"type" json:"type" binding:"required"`
+//HTTPAddGroupInfo HTTP消息模型AddGroup
+type HTTPAddGroupInfo struct {
+    Name string `form:"name" json:"name" binding:"required"`
+}
+
+//HTTPAddGroupInfo HTTP回复模型AddGroup
+type HTTPAddGroupResponse struct {
+    ID uint `form:"id" json:"id" binding:"required"`
+}
+
+//HTTPGetGroupListInfo HTTP消息模型GetGroupList
+type HTTPGetGroupListInfo struct {
+}
+
+//HTTPGetGroupListInfo HTTP回复模型GetGroupList
+type HTTPGetGroupListResponse struct {
+    Groups map[uint]string `form:"groups" json:"groups" binding:"required"`
 }

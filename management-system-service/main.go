@@ -4,14 +4,14 @@ import (
 	"management-system-server/conf"
 	"management-system-server/dao"
 	"management-system-server/service"
-	"management-system-server/util"
+	log "management-system-server/util/logger"
 )
 
 func main() {
 	//从配置文件读取配置
 	conf.Init()
 
-	util.InitLog()
+	log.Init()
 	dao.New()
-	service.Init()
+	service.New()
 }

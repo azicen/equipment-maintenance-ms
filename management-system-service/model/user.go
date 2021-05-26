@@ -8,12 +8,12 @@ import (
 type UserStatusEnum uint8
 
 const (
-	//Inactivu 未激活员工
-	Inactivu UserStatusEnum = iota
+	//UserStatusInactivu 未激活员工
+	UserStatusInactivu UserStatusEnum = iota
 	//Activu 激活员工
-	Active
-	//Suspend 被封禁员工，或离职
-	Suspend
+	UserStatusActive
+	//UserStatusSuspend 被封禁员工，或离职
+	UserStatusSuspend
 )
 
 //User 用户数据库模型
@@ -24,12 +24,25 @@ type User struct {
 	Status   uint8 `gorm:"not null"` //账号状态
 }
 
-//HttpUserInfo 用户http消息模型
-type HttpUserInfo struct {
-	ID       uint         `form:"id" json:"id" binding:"required"`
-	Name     string       `form:"name" json:"name"`
-	GroupID  []uint       `form:"group_id" json:"group_id"`
-	Password string       `form:"password" json:"password"`
-	Status   uint8        `form:"status" json:"status" binding:"required"`
-	Tpye     HttpTpyeEnum `form:"type" json:"type" binding:"required"`
+//HTTPAddUserInfo HTTP消息模型AddUser
+type HTTPAddUserInfo struct {
+	Name     string `form:"name" json:"name" binding:"required"`
+	Password string `form:"password" json:"password" binding:"required"`
+}
+
+//HTTPAddUserInfo HTTP回复模型AddUser
+type HTTPAddUserResponse struct {
+	ID uint `form:"id" json:"id" binding:"required"`
+}
+
+//HTTPGetUserBasisInfo HTTP消息模型GetUserBasis
+type HTTPGetUserBasisInfo struct {
+	ID uint `form:"id" json:"id" binding:"required"`
+}
+
+//HTTPGetUserBasisResponse HTTP回复模型GetUserBasis
+type HTTPGetUserBasisResponse struct {
+	Name   string `form:"name" json:"name" binding:"required"`
+	Status uint8  `form:"status" json:"status" binding:"required"`
+	Groups []uint `form:"groups" json:"groups" binding:"required"`
 }

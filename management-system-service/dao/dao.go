@@ -2,10 +2,12 @@ package dao
 
 import (
 	"management-system-server/model"
+	log "management-system-server/util/logger"
 	"os"
 	"time"
 
 	"github.com/jinzhu/gorm"
+	_ "github.com/jinzhu/gorm/dialects/mysql" 
 )
 
 var dao *Dao
@@ -31,7 +33,7 @@ func NewMySQL() (db *gorm.DB, err error) {
 	db.LogMode(true)
 	// Error
 	if err != nil {
-		return
+		log.Panic(err.Error(), err)
 	}
 	// 设置连接池
 	// 空闲

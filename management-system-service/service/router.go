@@ -1,37 +1,47 @@
 package service
 
 import (
-	"github.com/gin-gonic/gin"
 	"management-system-server/api"
-	"management-system-server/middleware"
+	"management-system-server/core"
+	"management-system-server/core/middleware"
+	"management-system-server/dao"
 	"os"
+
+	"github.com/gin-gonic/gin"
 )
 
-var Router *gin.Engine
-
-//Init 初始化服务
-func Init() {
-	InitRouter()
+type Service struct {
+	dao    *dao.Dao
+	router *gin.Engine
 }
 
-func GetRouter() *gin.Engine {
-	return Router
+//New 初始化服务
+func New() (s *Service) {
+	s = &Service{}
+	s.NewRouter()
+	return
 }
 
-//InitRouter 初始化路由
-func InitRouter() {
-	router := gin.Default()
+func (s *Service) GetRouter() *gin.Engine {
+	return s.router
+}
+
+//NewRouter 初始化路由
+func (s *Service) NewRouter() {
+	s.router = gin.Default()
 
 	//中间件, 顺序不能改
-	router.Use(middleware.Session(os.Getenv("SESSION_SECRET")))
-	router.Use(middleware.InitCors())
-	router.Use(middleware.CurrentUser())
+	s.router.Use(middleware.Session(os.Getenv("SESSION_SECRET")))
+	s.router.Use(middleware.InitCors())
+	s.router.Use(core.Handle(middleware.CurrentUser))
 
-	basisapi := router.Group("api/basis")
+	s.router.Use(core.Handle(middleware.Return))
+	s.router.Use(core.Handle(middleware.Error))
 
-	basisapi.POST("ping", api.Ping)
+	basisapi := s.router.Group("api")
 
-	router.Run(":3000")
+	basisapi.POST("ping", core.Handle(api.Ping))
+	//basisapi.POST("user", core.Handle(s.ChangeUser))
 
-	Router = router
+	s.router.Run(":3000")
 }
