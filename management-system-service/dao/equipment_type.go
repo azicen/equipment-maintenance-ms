@@ -42,6 +42,13 @@ func (d *Dao) SetCycle(c *core.Context, id interface{}, cycle uint64) (err error
 	return
 }
 
+//GetEquipmentTypeGroups 获取设备类型所在的权限组
+func (d *Dao) GetEquipmentTypeGroups(c *core.Context, id interface{}) (m []model.EquipmentInGroup, err error) {
+	//// SELECT * FROM user_in_group WHERE user_id = id;
+	err = d.GetDB().Where("equipment_id = ?", id).Find(&m).Error
+	return
+}
+
 //BindHTTPAddEquipmentTypeInfo
 func (d *Dao) BindHTTPAddEquipmentTypeInfo(c *core.Context) (info model.HTTPAddEquipmentTypeInfo, err error) {
 	err = c.BindJSON(&info)

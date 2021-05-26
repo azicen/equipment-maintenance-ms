@@ -63,12 +63,3 @@ func (d *Dao) BindHTTPAddEquipmentInfo(c *core.Context) (info model.HTTPAddEquip
 	}
 	return
 }
-
-//BindHTTPGetEquipmentInfo
-func (d *Dao) BindHTTPGetEquipmentInfo(c *core.Context) (info model.HTTPGetEquipmentInfo, err error) {
-	err = c.BindJSON(&info)
-	if err != nil {
-		return
-	}
-	return
-}

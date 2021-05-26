@@ -90,12 +90,3 @@ func (d *Dao) BindHTTPAddUserInfo(c *core.Context) (info model.HTTPAddUserInfo, 
     }
     return
 }
-
-//BindHTTPGetUserBasisInfo 
-func (d *Dao) BindHTTPGetUserBasisInfo(c *core.Context) (info model.HTTPGetUserBasisInfo, err error) {
-    err = c.BindJSON(&info)
-    if err != nil {
-        return
-    }
-    return
-}

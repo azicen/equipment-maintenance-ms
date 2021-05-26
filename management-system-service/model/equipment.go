@@ -38,11 +38,6 @@ type HTTPAddEquipmentResponse struct {
 	ID uint `form:"id" json:"id" binding:"required"`
 }
 
-//HTTPGetEquipmentInfo HTTP消息模型GetEquipment
-type HTTPGetEquipmentInfo struct {
-	ID uint `form:"id" json:"id" binding:"required"`
-}
-
 //HTTPGetEquipmentInfo HTTP回复模型GetEquipment
 type HTTPGetEquipmentResponse struct {
 	Name         string `form:"name" json:"name" binding:"required"`

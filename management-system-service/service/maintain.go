@@ -29,13 +29,7 @@ func (s *Service) AddMaintain(c *core.Context) {
 
 //GetMaintain GetMaintain服务api逻辑处理
 func (s *Service) GetMaintain(c *core.Context) {
-	info, err := s.dao.BindHTTPGetMaintainInfo(c)
-	if err != nil {
-		c.Error(http.StatusBadRequest, err)
-		return
-	}
-
-	m, err := s.dao.GetMaintain(c, info.ID)
+	m, err := s.dao.GetMaintain(c, c.Param("id"))
 	if err != nil {
 		c.Error(http.StatusInternalServerError, err)
 		return

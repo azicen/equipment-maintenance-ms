@@ -30,11 +30,6 @@ type HTTPAddMaintainResponse struct {
 	ID uint `form:"id" json:"id" binding:"required"`
 }
 
-//HTTPGetMaintainInfo HTTP消息模型GetMaintain
-type HTTPGetMaintainInfo struct {
-	ID uint `form:"id" json:"id" binding:"required"`
-}
-
 //HTTPGetMaintainInfo HTTP回复模型GetMaintain
 type HTTPGetMaintainResponse struct {
 	UserID      uint   `form:"user_id" json:"user_id" binding:"required"`

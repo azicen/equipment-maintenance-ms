@@ -28,18 +28,12 @@ func (s *Service) AddUser(c *core.Context) {
 
 //GetUserBasis 获取用户基础信息服务api逻辑处理
 func (s *Service) GetUserBasis(c *core.Context) {
-	info, err := s.dao.BindHTTPGetUserBasisInfo(c)
-	if err != nil {
-		c.Error(http.StatusBadRequest, err)
-		return
-	}
-
-	m, err := s.dao.GetUser(c, info.ID)
+	m, err := s.dao.GetUser(c, c.Param("id"))
 	if err != nil {
 		c.Error(http.StatusInternalServerError, err)
 		return
 	}
-	groups, err := s.dao.GetUserGroups(c, info.ID)
+	groups, err := s.dao.GetUserGroups(c, m.ID)
 	groupIdArray := []uint{}
 	for i := 0; i < len(groups); i++ {
 		groupIdArray = append(groupIdArray, groups[i].GroupID)

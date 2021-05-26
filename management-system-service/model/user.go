@@ -35,11 +35,6 @@ type HTTPAddUserResponse struct {
 	ID uint `form:"id" json:"id" binding:"required"`
 }
 
-//HTTPGetUserBasisInfo HTTP消息模型GetUserBasis
-type HTTPGetUserBasisInfo struct {
-	ID uint `form:"id" json:"id" binding:"required"`
-}
-
 //HTTPGetUserBasisResponse HTTP回复模型GetUserBasis
 type HTTPGetUserBasisResponse struct {
 	Name   string `form:"name" json:"name" binding:"required"`

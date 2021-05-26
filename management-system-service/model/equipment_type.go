@@ -11,11 +11,18 @@ type EquipmentType struct {
 
 //HTTPAddEquipmentTypeInfo HTTP消息模型AddEquipmentType
 type HTTPAddEquipmentTypeInfo struct {
-    Name string `form:"name" json:"name" binding:"required"`
-    Cycle uint64 `form:"cycle" json:"cycle" binding:"required"`
+	Name  string `form:"name" json:"name" binding:"required"`
+	Cycle uint64 `form:"cycle" json:"cycle" binding:"required"`
 }
 
 //HTTPAddEquipmentTypeInfo HTTP回复模型AddEquipmentType
 type HTTPAddEquipmentTypeResponse struct {
-    ID uint `form:"id" json:"id" binding:"required"`
+	ID uint `form:"id" json:"id" binding:"required"`
+}
+
+//HTTPGetEquipmentTypeBasisInfo 设备类型基础信息HTTP回复模型
+type HTTPGetEquipmentTypeBasisResponse struct {
+	Name   string `form:"name" json:"name" binding:"required"`
+	Cycle  uint64 `form:"cycle" json:"cycle" binding:"required"`
+	Groups []uint `form:"groups" json:"groups" binding:"required"`
 }

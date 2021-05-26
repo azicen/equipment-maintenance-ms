@@ -35,12 +35,3 @@ func (d *Dao) BindHTTPAddMaintainInfo(c *core.Context) (info model.HTTPAddMainta
 	}
 	return
 }
-
-//BindHTTPGetMaintainInfo
-func (d *Dao) BindHTTPGetMaintainInfo(c *core.Context) (info model.HTTPGetMaintainInfo, err error) {
-	err = c.BindJSON(&info)
-	if err != nil {
-		return
-	}
-	return
-}

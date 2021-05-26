@@ -18,10 +18,6 @@ type HTTPAddGroupResponse struct {
     ID uint `form:"id" json:"id" binding:"required"`
 }
 
-//HTTPGetGroupListInfo HTTP消息模型GetGroupList
-type HTTPGetGroupListInfo struct {
-}
-
 //HTTPGetGroupListInfo HTTP回复模型GetGroupList
 type HTTPGetGroupListResponse struct {
     Groups map[uint]string `form:"groups" json:"groups" binding:"required"`
