@@ -1,0 +1,12 @@
+# HTTPModelName(p1 type, p2 type...) (r1 type, r2 type)
+# ADD
+AddUser(Name string, Password string) (ID uint)
+AddEquipmentType(Name string, Cycle uint64) (ID uint)
+AddEquipment(Name string, Location string, Status uint8, Date uint64, StartDate uint64, Deadline uint64, TypeID uint, UserID uint, CreationDate uint64) (ID uint)
+AddGroup(Name string) (ID uint)
+AddMaintain(UserID uint, EquipmentID uint, Date uint64, Status uint8, Remark string) (ID uint)
+# GET
+GetUserBasis(ID uint) (Name string, Status uint8, Groups []uint)
+GetEquipment(ID uint) (Name string, Location string, Status uint8, Date uint64, StartDate uint64, Deadline uint64, TypeID uint, UserID uint, CreationDate uint64)
+GetGroupList() (Groups map[uint]string)
+GetMaintain(ID uint) (UserID uint, EquipmentID uint, Date uint64, Status uint8, Remark string)

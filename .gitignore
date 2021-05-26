@@ -38,3 +38,6 @@ pnpm-debug.log*
 # IDE
 .idea
 .vscode
+
+#util
+util/build
