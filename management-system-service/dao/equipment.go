@@ -8,7 +8,7 @@ import (
 
 //AddEquipment 添加设备
 func (d *Dao) AddEquipment(c *core.Context,
-	name string, location string, status uint8,
+	name string, location string, status string,
 	startDate time.Time, deadline time.Time,
 	typeID uint, userID uint) (e model.Equipment, err error) {
 
@@ -22,7 +22,6 @@ func (d *Dao) AddEquipment(c *core.Context,
 		Deadline:     deadline,
 		TypeID:       typeID,
 		UserID:       userID,
-		CreationDate: creationDate,
 	}
 	err = d.GetDB().Create(&e).Error
 	return

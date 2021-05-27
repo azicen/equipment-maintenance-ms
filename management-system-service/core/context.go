@@ -46,6 +46,21 @@ func (c *Context) SetCode(code int) {
 	c.code = code
 }
 
+func (c *Context) ReturnFailure() {
+	c.Next()
+	c.JSON(c.GetCode(), gin.H{
+		"msg":  "failure",
+	})
+}
+
+func (c *Context) ReturnSuccess(data interface{}) {
+	c.Next()
+	c.JSON(c.GetCode(), gin.H{
+		"msg":  "success",
+		"data": data,
+	})
+}
+
 //Error 添加错误
 func (c *Context) Error(code int, errs ...error) {
 	c.SetCode(code)

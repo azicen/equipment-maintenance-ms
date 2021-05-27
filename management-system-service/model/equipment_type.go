@@ -33,3 +33,8 @@ type HTTPUpdateEquipmentTypeBasisInfo struct {
 	Cycle  uint64 `form:"cycle" json:"cycle" binding:"required"`
 	Groups []uint `form:"groups" json:"groups" binding:"required"`
 }
+
+//HTTPGetEquipmentTypeListResponse 获取设备类型列表HTTP回复模型
+type HTTPGetEquipmentTypeListResponse struct {
+	EquipmentTypes []map[string]interface{} `form:"equipment_types" json:"equipment_types" binding:"required"`
+}

@@ -92,7 +92,8 @@ def build_api_func(name, r_dict, fo):
 
     fo.write("    info, err := s.dao.BindHTTP" + name + "Info(c)\n")
     fo.write("    if err != nil {\n")
-    fo.write("        c.Error(http.StatusBadRequest, err)\n")
+    fo.write("        log.Error(err.Error(), err)
+		c.SetCode(http.StatusBadRequest)\n")
     fo.write("        return\n    }\n")
 
     fo.write("\n\n\n")
@@ -101,7 +102,7 @@ def build_api_func(name, r_dict, fo):
     for r_name in r_dict:
         fo.write("        " + r_name + ":  ,\n")
     fo.write("    }\n")
-    fo.write("    c.SetData(response)\n")
+    fo.write("    c.ReturnSuccess(response)\n")
 
     fo.write("}\n")
     fo.write("\n")

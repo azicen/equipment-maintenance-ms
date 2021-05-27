@@ -4,7 +4,6 @@ import (
 	"management-system-server/core"
 	"management-system-server/dao"
 	"management-system-server/model"
-	"management-system-server/serializer"
 
 	"github.com/gin-contrib/sessions"
 )
@@ -31,6 +30,6 @@ func AuthRequired(c *core.Context) {
 		}
 	}
 
-	c.JSON(200, serializer.CheckLogin())
+	c.JSON(200, nil)
 	c.Abort()
 }

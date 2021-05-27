@@ -20,7 +20,7 @@ type HTTPAddGroupResponse struct {
 
 //HTTPGetGroupListInfo 获取权限组列表HTTP回复模型
 type HTTPGetGroupListResponse struct {
-	Groups map[uint]string `form:"groups" json:"groups" binding:"required"`
+	Groups []map[string]interface{} `form:"groups" json:"groups" binding:"required"`
 }
 
 //HTTPUpdateGroupInfo 更新权限组信息HTTP消息模型

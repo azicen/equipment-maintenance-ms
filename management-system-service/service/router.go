@@ -35,7 +35,7 @@ func (s *Service) NewRouter() {
 	s.router.Use(middleware.InitCors())
 	//s.router.Use(core.Handle(middleware.CurrentUser))
 
-	s.router.Use(core.Handle(middleware.Return))
+	//s.router.Use(core.Handle(middleware.Return))
 	s.router.Use(core.Handle(middleware.Error))
 
 	//建立路由表
@@ -54,6 +54,8 @@ func (s *Service) NewRouter() {
 		apiV1.POST(equipmentTypeName, core.Handle(s.AddEquipmentType))
 		apiV1.GET(equipmentTypeName+"/:id", core.Handle(s.GetEquipmentTypeBasis))
 		apiV1.PUT(equipmentTypeName+"/:id", core.Handle(s.UpdateEquipmentTypeBasis))
+
+		apiV1.GET("equipment_types", core.Handle(s.GetEquipmentType))
 	}
 	{
 		//设备

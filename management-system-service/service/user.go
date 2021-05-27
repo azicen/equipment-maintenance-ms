@@ -3,6 +3,7 @@ package service
 import (
 	"management-system-server/core"
 	"management-system-server/model"
+	log "management-system-server/util/logger"
 	"net/http"
 )
 
@@ -10,27 +11,30 @@ import (
 func (s *Service) AddUser(c *core.Context) {
 	info, err := s.dao.BindHTTPAddUserInfo(c)
 	if err != nil {
-		c.Error(http.StatusBadRequest, err)
+		log.Error(err.Error(), err)
+		c.SetCode(http.StatusBadRequest)
 		return
 	}
 
 	m, err := s.dao.AddUser(c, info.Name, info.Password, uint8(model.UserStatusInactivu))
 	if err != nil {
-		c.Error(http.StatusInternalServerError, err)
+		log.Error(err.Error(), err)
+		c.SetCode(http.StatusInternalServerError)
 		return
 	}
 
 	response := model.HTTPAddUserResponse{
 		ID: m.ID,
 	}
-	c.SetData(response)
+	c.ReturnSuccess(response)
 }
 
 //GetUserBasis 获取用户基础信息服务api逻辑处理
 func (s *Service) GetUserBasis(c *core.Context) {
 	m, err := s.dao.GetUser(c, c.Param("id"))
 	if err != nil {
-		c.Error(http.StatusInternalServerError, err)
+		log.Error(err.Error(), err)
+		c.SetCode(http.StatusInternalServerError)
 		return
 	}
 	groups, err := s.dao.GetUserGroups(c, m.ID)
@@ -44,33 +48,37 @@ func (s *Service) GetUserBasis(c *core.Context) {
 		Status: m.Status,
 		Groups: groupIdArray,
 	}
-	c.SetData(response)
+	c.ReturnSuccess(response)
 }
 
 //UpdateUserBasis UpdateUserBasis服务api逻辑处理
 func (s *Service) UpdateUserBasis(c *core.Context) {
 	info, err := s.dao.BindHTTPUpdateUserBasisInfo(c)
 	if err != nil {
-		c.Error(http.StatusBadRequest, err)
+		log.Error(err.Error(), err)
+		c.SetCode(http.StatusBadRequest)
 		return
 	}
 	//基础信息更新
 	m, err := s.dao.GetUser(c, c.Param("id"))
 	if err != nil {
-		c.Error(http.StatusInternalServerError, err)
+		log.Error(err.Error(), err)
+		c.SetCode(http.StatusInternalServerError)
 		return
 	}
 	m.Name = info.Name
 	m.Status = info.Status
 	err = s.dao.SaveUser(c, m)
 	if err != nil {
-		c.Error(http.StatusInternalServerError, err)
+		log.Error(err.Error(), err)
+		c.SetCode(http.StatusInternalServerError)
 		return
 	}
 	//权限组的更新
 	oldGroups, err := s.dao.GetUserGroups(c, m.ID)
 	if err != nil {
-		c.Error(http.StatusInternalServerError, err)
+		log.Error(err.Error(), err)
+		c.SetCode(http.StatusInternalServerError)
 		return
 	}
 	newMap := make(map[uint]struct{})
@@ -83,7 +91,8 @@ func (s *Service) UpdateUserBasis(c *core.Context) {
 		if _, ok := newMap[group.GroupID]; !ok {
 			err = s.dao.DelUserInGroup(c, group.ID)
 			if err != nil {
-				c.Error(http.StatusInternalServerError, err)
+				log.Error(err.Error(), err)
+				c.SetCode(http.StatusInternalServerError)
 			}
 		}
 	}
@@ -91,10 +100,11 @@ func (s *Service) UpdateUserBasis(c *core.Context) {
 		if _, ok := oldMap[groupId]; !ok {
 			err = s.dao.AddUserInGroup(c, groupId, m.ID)
 			if err != nil {
-				c.Error(http.StatusInternalServerError, err)
+				log.Error(err.Error(), err)
+				c.SetCode(http.StatusInternalServerError)
 			}
 		}
 	}
 
-	c.SetData(true)
+	c.ReturnSuccess(true)
 }

@@ -2,12 +2,12 @@ package service
 
 import (
 	"management-system-server/core"
-	"management-system-server/serializer"
+
+	"github.com/gin-gonic/gin"
 )
 
 func (s *Service) Ping(c *core.Context) {
-	c.JSON(200, serializer.Response{
-		Code: 0,
-		Msg:  "Ping",
+	c.JSON(200, gin.H{
+		"msg": "Ping",
 	})
 }
