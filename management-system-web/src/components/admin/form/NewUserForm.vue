@@ -15,10 +15,10 @@
         filterable
         allow-create
         default-first-option
-        placeholder="请选设备类别"
+        placeholder="请选权限组"
       >
         <el-option
-          v-for="item in allType"
+          v-for="item in allGroups"
           :key="item.id"
           :label="item.name"
           :value="item.id"
@@ -34,30 +34,41 @@
 </template>
 
 <script>
+import * as GroupAPI from "@/api/group";
+import * as UserAPI from "@/api/user";
+
 export default {
   data() {
     return {
       form: {
-        groupId: 0,
         name: "",
-        types: [],
+        password: "123456",
       },
-      allType: [
-        {
-          id: 1,
-          name: "设备类别1",
-        },
-        {
-          id: 2,
-          name: "设备类别2",
-        },
-      ],
+      allGroups: [],
+      groups: [],
     };
   },
   methods: {
-    onSubmit() {
-      console.log("submit!");
+    getGroupList() {
+      GroupAPI.getGroups().then((res) => {
+        this.allGroups = res.data.groups;
+      });
     },
+    addUser() {
+      UserAPI.postUser(this.form).then((res) => {
+        this.$notify({
+          title: "创建成功",
+          message: `您索创建的用户ID为${res.data.id}`,
+          type: "success",
+        });
+      });
+    },
+    onSubmit() {
+      this.addUser();
+    },
+  },
+  beforeMount() {
+    this.getGroupList();
   },
 };
 </script>

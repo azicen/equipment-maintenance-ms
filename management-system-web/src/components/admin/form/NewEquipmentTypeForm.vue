@@ -9,13 +9,13 @@
       <el-input v-model="form.name"></el-input>
     </el-form-item>
     <el-form-item label="维护周期">
-      <el-input v-model="form.cycle">
+      <el-input-number v-model="form.cycle" :min="1">
         <template #append>天</template>
-      </el-input>
+      </el-input-number>
     </el-form-item>
     <el-form-item label="权限组">
       <el-select
-        v-model="form.groups"
+        v-model="groups"
         multiple
         filterable
         allow-create
@@ -39,35 +39,42 @@
 </template>
 
 <script>
+import * as GroupAPI from "@/api/group";
+import * as EquipmentTypeAPI from "@/api/equipment_type";
+
 export default {
   data() {
     return {
       form: {
-        typeId: 0,
         name: "",
         cycle: "",
-        groups: [],
       },
-      allGroups: [
-        {
-          id: 1,
-          name: "权限组1",
-        },
-        {
-          id: 2,
-          name: "权限组2",
-        },
-        {
-          id: 3,
-          name: "权限组3",
-        },
-      ],
+      groups: [],
+      allGroups: [],
     };
   },
   methods: {
-    onSubmit() {
-      console.log("submit!");
+    getGroupList() {
+      GroupAPI.getGroups().then((res) => {
+        this.allGroups = res.data.groups;
+      });
     },
+    addEquipmentType() {
+      EquipmentTypeAPI.postEquipmentType(this.form).then((res) => {
+        this.$notify({
+          title: "创建成功",
+          message: `您索创建的设备类型ID为${res.data.id}`,
+          type: "success",
+        });
+      });
+    },
+    onSubmit() {
+      this.addEquipmentType();
+      //console.log("submit!");
+    },
+  },
+  beforeMount() {
+    this.getGroupList();
   },
 };
 </script>

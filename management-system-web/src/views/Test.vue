@@ -1,6 +1,6 @@
 <template>
   <div class="test">
-    <NewEmployeeForm />
+    <NewUserForm />
     <NewGroupForm />
     <NewEquipmentTypeForm />
     <NewEquipmentForm />
@@ -11,7 +11,7 @@
 import NewEquipmentForm from "@/components/admin/form/NewEquipmentForm.vue";
 import NewEquipmentTypeForm from "@/components/admin/form/NewEquipmentTypeForm.vue";
 import NewGroupForm from "@/components/admin/form/NewGroupForm.vue";
-import NewEmployeeForm from "@/components/admin/form/NewEmployeeForm.vue";
+import NewUserForm from "@/components/admin/form/NewUserForm.vue";
 
 export default {
   name: "Test",
@@ -19,7 +19,7 @@ export default {
     NewEquipmentTypeForm,
     NewEquipmentForm,
     NewGroupForm,
-    NewEmployeeForm,
+    NewUserForm,
   },
 };
 </script>

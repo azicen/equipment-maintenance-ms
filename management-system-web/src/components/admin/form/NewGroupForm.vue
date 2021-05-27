@@ -10,7 +10,7 @@
     </el-form-item>
     <el-form-item label="拥有设备类别">
       <el-select
-        v-model="form.types"
+        v-model="types"
         multiple
         filterable
         allow-create
@@ -34,30 +34,40 @@
 </template>
 
 <script>
+import * as GroupAPI from "@/api/group";
+import * as EquipmentTypeAPI from "@/api/equipment_type";
+
 export default {
   data() {
     return {
       form: {
-        groupId: 0,
         name: "",
-        types: [],
       },
-      allType: [
-        {
-          id: 1,
-          name: "设备类别1",
-        },
-        {
-          id: 2,
-          name: "设备类别2",
-        },
-      ],
+      types: [],
+      allType: [],
     };
   },
   methods: {
-    onSubmit() {
-      console.log("submit!");
+    getEquipmentTypeList() {
+      EquipmentTypeAPI.getEquipmentTypes().then((res) => {
+        this.allType = res.data.equipment_types;
+      });
     },
+    addGroup() {
+      GroupAPI.postGroup(this.form).then((res) => {
+        this.$notify({
+          title: "创建成功",
+          message: `您索创建的权限组ID为${res.data.id}`,
+          type: "success",
+        });
+      });
+    },
+    onSubmit() {
+      this.addGroup()
+    },
+  },
+  beforeMount() {
+    this.getEquipmentTypeList();
   },
 };
 </script>

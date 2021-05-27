@@ -5,22 +5,6 @@
     :label-position="labelPosition"
     label-width="120px"
   >
-    <el-form-item label="设备类型">
-      <el-select
-        v-model="form.typeId"
-        clearable
-        filterable
-        placeholder="请选择设备类型"
-      >
-        <el-option
-          v-for="item in types"
-          :key="item.id"
-          :label="item.name"
-          :value="item.id"
-        >
-        </el-option>
-      </el-select>
-    </el-form-item>
     <el-form-item label="设备名称">
       <el-input v-model="form.name"></el-input>
     </el-form-item>
@@ -30,12 +14,28 @@
     <el-form-item label="状况">
       <el-input v-model="form.status"></el-input>
     </el-form-item>
+    <el-form-item label="设备类型">
+      <el-select
+        v-model="form.type_id"
+        clearable
+        filterable
+        placeholder="请选择设备类型"
+      >
+        <el-option
+          v-for="item in allType"
+          :key="item.id"
+          :label="item.name"
+          :value="item.id"
+        >
+        </el-option>
+      </el-select>
+    </el-form-item>
     <el-form-item label="开始服役时间">
       <el-col :span="11">
         <el-date-picker
           type="date"
           placeholder="选择日期"
-          v-model="form.date"
+          v-model="form.start_date"
           style="width: 100%"
         ></el-date-picker>
       </el-col>
@@ -58,34 +58,49 @@
 </template>
 
 <script>
+import * as EquipmentAPI from "@/api/equipment";
+import * as EquipmentTypeAPI from "@/api/equipment_type";
+
 export default {
   data() {
     return {
       form: {
-        id: 0,
-        typeId: "",
         name: "",
         location: "",
         status: "",
-        date: "",
+        start_date: "",
         deadline: "",
+        type_id: "",
+        user_id: 1,
       },
-      types: [
-        {
-          id: 1,
-          name: "设备类型1",
-        },
-        {
-          id: 2,
-          name: "设备类型2",
-        },
-      ],
+      allType: [],
     };
   },
   methods: {
-    onSubmit() {
-      console.log("submit!");
+    getEquipmentTypeList() {
+      EquipmentTypeAPI.getEquipmentTypes().then((res) => {
+        this.allType = res.data.equipment_types;
+      });
     },
+    addEquipment() {
+      this.form.start_date = this.form.start_date.getTime() / 1000
+      this.form.deadline = this.form.deadline.getTime() / 1000
+
+      EquipmentAPI.postEquipment(this.form).then((res) => {
+        this.$notify({
+          title: "创建成功",
+          message: `您索创建的设备ID为${res.data.id}`,
+          type: "success",
+        });
+      })
+      //new Date().getTime();
+    },
+    onSubmit() {
+      this.addEquipment();
+    },
+  },
+  beforeMount() {
+    this.getEquipmentTypeList();
   },
 };
 </script>
