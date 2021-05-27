@@ -23,6 +23,12 @@ func (d *Dao) AddUser(c *core.Context, name string, password string, status uint
 	return
 }
 
+//SaveUser 保存用户数据
+func (d *Dao) SaveUser(c *core.Context, e model.User) (err error) {
+	err = d.GetDB().Save(&e).Error
+	return
+}
+
 //GetUser 用ID获取员工
 func (d *Dao) GetUser(c *core.Context, id interface{}) (m model.User, err error) {
 	err = d.GetDB().First(&m, id).Error
@@ -82,8 +88,43 @@ func (d *Dao) GetUserGroups(c *core.Context, id interface{}) (m []model.UserInGr
 	return
 }
 
+//AddUserInGroup 添加用户与权限组的关系
+func (d *Dao) AddUserInGroup(c *core.Context, groupID uint, userID uint) (err error) {
+	urg := model.UserInGroup{
+		GroupID: groupID,
+		UserID:  userID,
+	}
+	err = d.GetDB().Create(&urg).Error
+	return
+}
+
+//GetUserInGroup 用ID获取用户与权限组的关系
+func (d *Dao) GetUserInGroup(c *core.Context, id interface{}) (m model.UserInGroup, err error) {
+	err = d.GetDB().First(&m, id).Error
+	return
+}
+
+//DelUserInGroup 删除用户与权限组的关系
+func (d *Dao) DelUserInGroup(c *core.Context, id interface{}) (err error) {
+	urg, err := d.GetUserInGroup(c, id)
+	if err != nil {
+		return
+	}
+	err = d.GetDB().Delete(urg).Error
+	return
+}
+
 //BindHTTPAddUserInfo 
 func (d *Dao) BindHTTPAddUserInfo(c *core.Context) (info model.HTTPAddUserInfo, err error) {
+    err = c.BindJSON(&info)
+    if err != nil {
+        return
+    }
+    return
+}
+
+//BindHTTPUpdateUserBasisInfo 
+func (d *Dao) BindHTTPUpdateUserBasisInfo(c *core.Context) (info model.HTTPUpdateUserBasisInfo, err error) {
     err = c.BindJSON(&info)
     if err != nil {
         return

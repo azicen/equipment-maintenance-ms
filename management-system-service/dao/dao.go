@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/jinzhu/gorm"
-	_ "github.com/jinzhu/gorm/dialects/mysql" 
+	_ "github.com/jinzhu/gorm/dialects/mysql"
 )
 
 var dao *Dao
@@ -17,8 +17,8 @@ type Dao struct {
 }
 
 // New
-func New() (d *Dao, err error) {
-	db, err := NewMySQL()
+func New() (d *Dao) {
+	db := NewMySQL()
 	d = &Dao{db}
 	dao = d
 
@@ -26,10 +26,10 @@ func New() (d *Dao, err error) {
 }
 
 //初始化数据库
-func NewMySQL() (db *gorm.DB, err error) {
+func NewMySQL() (db *gorm.DB) {
 	sqldsn := os.Getenv("SQL_DSN")
 
-	db, err = gorm.Open("mysql", sqldsn)
+	db, err := gorm.Open("mysql", sqldsn)
 	db.LogMode(true)
 	// Error
 	if err != nil {

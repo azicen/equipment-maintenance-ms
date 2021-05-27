@@ -16,7 +16,7 @@ type Maintain struct {
 	Remark      string    `gorm:"not null"` //异常信息
 }
 
-//HTTPAddMaintainInfo HTTP消息模型AddMaintain
+//HTTPAddMaintainInfo 添加维护HTTP消息模型
 type HTTPAddMaintainInfo struct {
 	UserID      uint   `form:"user_id" json:"user_id" binding:"required"`
 	EquipmentID uint   `form:"equipment_id" json:"equipment_id" binding:"required"`
@@ -25,12 +25,12 @@ type HTTPAddMaintainInfo struct {
 	Remark      string `form:"remark" json:"remark" binding:"required"`
 }
 
-//HTTPAddMaintainInfo HTTP回复模型AddMaintain
+//HTTPAddMaintainInfo 添加维护HTTP回复模型
 type HTTPAddMaintainResponse struct {
 	ID uint `form:"id" json:"id" binding:"required"`
 }
 
-//HTTPGetMaintainInfo HTTP回复模型GetMaintain
+//HTTPGetMaintainInfo 获取维护HTTP回复模型
 type HTTPGetMaintainResponse struct {
 	UserID      uint   `form:"user_id" json:"user_id" binding:"required"`
 	EquipmentID uint   `form:"equipment_id" json:"equipment_id" binding:"required"`

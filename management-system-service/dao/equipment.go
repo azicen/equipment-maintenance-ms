@@ -28,6 +28,12 @@ func (d *Dao) AddEquipment(c *core.Context,
 	return
 }
 
+//SaveEquipment 保存设备信息
+func (d *Dao) SaveEquipment(c *core.Context, e model.Equipment) (err error) {
+	err = d.GetDB().Save(&e).Error
+	return
+}
+
 //GetEquipment 用ID获取设备
 func (d *Dao) GetEquipment(c *core.Context, id interface{}) (e model.Equipment, err error) {
 	err = d.GetDB().First(&e, id).Error
@@ -40,7 +46,7 @@ func (d *Dao) DelEquipment(c *core.Context, id interface{}) (err error) {
 	if err != nil {
 		return
 	}
-	err = d.GetDB().Save(e).Error
+	err = d.GetDB().Delete(e).Error
 	return
 }
 
@@ -57,6 +63,15 @@ func (d *Dao) SetDate(c *core.Context, id interface{}, date time.Time) (err erro
 
 //BindHTTPAddEquipmentInfo
 func (d *Dao) BindHTTPAddEquipmentInfo(c *core.Context) (info model.HTTPAddEquipmentInfo, err error) {
+	err = c.BindJSON(&info)
+	if err != nil {
+		return
+	}
+	return
+}
+
+//BindHTTPUpdateEquipmentInfo 解析更新设备HTTP消息模型
+func (d *Dao) BindHTTPUpdateEquipmentInfo(c *core.Context) (info model.HTTPUpdateEquipmentInfo, err error) {
 	err = c.BindJSON(&info)
 	if err != nil {
 		return
