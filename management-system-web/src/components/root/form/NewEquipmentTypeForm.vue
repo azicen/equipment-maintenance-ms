@@ -63,7 +63,7 @@ export default {
       EquipmentTypeAPI.postEquipmentType(this.form).then((res) => {
         this.$notify({
           title: "创建成功",
-          message: `您索创建的设备类型ID为${res.data.id}`,
+          message: `您所创建的设备类型ID为${res.data.id}`,
           type: "success",
         });
       });

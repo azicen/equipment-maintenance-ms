@@ -9,6 +9,7 @@
     <el-menu-item index="/">首页</el-menu-item>
     <el-menu-item index="/about">消息中心</el-menu-item>
     <el-menu-item index="/test">测试</el-menu-item>
+    <el-menu-item index="/root_home">管理系统</el-menu-item>
   </el-menu>
 </template>
 

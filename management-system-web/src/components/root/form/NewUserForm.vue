@@ -5,20 +5,20 @@
     :label-position="labelPosition"
     label-width="120px"
   >
-    <el-form-item label="权限组名称">
+    <el-form-item label="人员姓名">
       <el-input v-model="form.name"></el-input>
     </el-form-item>
-    <el-form-item label="拥有设备类别">
+    <el-form-item label="分配权限组">
       <el-select
-        v-model="types"
+        v-model="form.types"
         multiple
         filterable
         allow-create
         default-first-option
-        placeholder="请选设备类别"
+        placeholder="请选权限组"
       >
         <el-option
-          v-for="item in allType"
+          v-for="item in allGroups"
           :key="item.id"
           :label="item.name"
           :value="item.id"
@@ -35,39 +35,40 @@
 
 <script>
 import * as GroupAPI from "@/api/group";
-import * as EquipmentTypeAPI from "@/api/equipment_type";
+import * as UserAPI from "@/api/user";
 
 export default {
   data() {
     return {
       form: {
         name: "",
+        password: "123456",
       },
-      types: [],
-      allType: [],
+      allGroups: [],
+      groups: [],
     };
   },
   methods: {
-    getEquipmentTypeList() {
-      EquipmentTypeAPI.getEquipmentTypes().then((res) => {
-        this.allType = res.data.equipment_types;
+    getGroupList() {
+      GroupAPI.getGroups().then((res) => {
+        this.allGroups = res.data.groups;
       });
     },
-    addGroup() {
-      GroupAPI.postGroup(this.form).then((res) => {
+    addUser() {
+      UserAPI.postUser(this.form).then((res) => {
         this.$notify({
           title: "创建成功",
-          message: `您索创建的权限组ID为${res.data.id}`,
+          message: `您所创建的用户ID为${res.data.id}`,
           type: "success",
         });
       });
     },
     onSubmit() {
-      this.addGroup()
+      this.addUser();
     },
   },
   beforeMount() {
-    this.getEquipmentTypeList();
+    this.getGroupList();
   },
 };
 </script>

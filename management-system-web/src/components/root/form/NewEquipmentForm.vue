@@ -33,20 +33,24 @@
     <el-form-item label="开始服役时间">
       <el-col :span="11">
         <el-date-picker
-          type="date"
+          type="datetime"
           placeholder="选择日期"
           v-model="form.start_date"
           style="width: 100%"
+          :shortcuts="shortcuts"
+          :default-time="currentTime"
         ></el-date-picker>
       </el-col>
     </el-form-item>
     <el-form-item label="结束服役时间">
       <el-col :span="11">
         <el-date-picker
-          type="date"
+          type="datetime"
           placeholder="选择日期"
           v-model="form.deadline"
           style="width: 100%"
+          :shortcuts="shortcuts"
+          :default-time="currentTime"
         ></el-date-picker>
       </el-col>
     </el-form-item>
@@ -64,6 +68,45 @@ import * as EquipmentTypeAPI from "@/api/equipment_type";
 export default {
   data() {
     return {
+      shortcuts: [
+        {
+          text: "今天",
+          value: new Date(),
+        },
+        {
+          text: "明天",
+          value: (() => {
+            const date = new Date();
+            date.setTime(date.getTime() + 3600 * 1000 * 24);
+            return date;
+          })(),
+        },
+        {
+          text: "一周后",
+          value: (() => {
+            const date = new Date();
+            date.setTime(date.getTime() + 3600 * 1000 * 24 * 7);
+            return date;
+          })(),
+        },
+        {
+          text: "一个月后",
+          value: (() => {
+            const date = new Date();
+            date.setTime(date.getTime() + 3600 * 1000 * 24 * 30);
+            return date;
+          })(),
+        },
+        {
+          text: "一年后",
+          value: (() => {
+            const date = new Date();
+            date.setTime(date.getTime() + 3600 * 1000 * 24 * 365);
+            return date;
+          })(),
+        },
+      ],
+      currentTime: new Date(),
       form: {
         name: "",
         location: "",
@@ -83,16 +126,16 @@ export default {
       });
     },
     addEquipment() {
-      this.form.start_date = this.form.start_date.getTime() / 1000
-      this.form.deadline = this.form.deadline.getTime() / 1000
+      this.form.start_date = this.form.start_date.getTime() / 1000;
+      this.form.deadline = this.form.deadline.getTime() / 1000;
 
       EquipmentAPI.postEquipment(this.form).then((res) => {
         this.$notify({
           title: "创建成功",
-          message: `您索创建的设备ID为${res.data.id}`,
+          message: `您所创建的设备ID为${res.data.id}`,
           type: "success",
         });
-      })
+      });
       //new Date().getTime();
     },
     onSubmit() {
