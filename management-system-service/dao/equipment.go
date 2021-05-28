@@ -1,6 +1,7 @@
 package dao
 
 import (
+	"errors"
 	"management-system-server/core"
 	"management-system-server/model"
 	"time"
@@ -49,14 +50,33 @@ func (d *Dao) DelEquipment(c *core.Context, id interface{}) (err error) {
 	return
 }
 
-//SetDate 设置维护日期
-func (d *Dao) SetDate(c *core.Context, id interface{}, date time.Time) (err error) {
+//SetEquipmentDate 设置维护日期
+func (d *Dao) SetEquipmentDate(c *core.Context, id interface{}, date time.Time) (err error) {
 	e, err := d.GetEquipment(c, id)
 	if err != nil {
 		return
 	}
 	e.Date = date
 	err = d.GetDB().Save(e).Error
+	return
+}
+
+//GetEquipmentList 获取设备列表
+func (d *Dao) GetEquipmentList(c *core.Context, minId interface{}, maxId interface{}) (m []model.Equipment, err error) {
+	err = d.GetDB().Where("id between ? and ?", minId, maxId).Find(&m).Error
+	return
+}
+
+//GetTenEquipmentList 获取10个设备，从id为"nextId"开始
+func (d *Dao) GetTenEquipmentList(c *core.Context, nextId interface{}) (m []model.Equipment, err error) {
+	var maxId uint
+	if value, ok := nextId.(uint); ok {
+		maxId = value + 9
+	} else {
+		err = errors.New("nextId not uint")
+		return
+	}
+	m, err = d.GetEquipmentList(c, nextId, maxId)
 	return
 }
 

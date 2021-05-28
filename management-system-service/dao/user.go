@@ -1,6 +1,7 @@
 package dao
 
 import (
+	"errors"
 	"management-system-server/core"
 	"management-system-server/model"
 
@@ -81,6 +82,25 @@ func (d *Dao) DelUser(c *core.Context, id interface{}) (err error) {
 	return
 }
 
+//GetUserList 获取用户列表
+func (d *Dao) GetUserList(c *core.Context, minId interface{}, maxId interface{}) (m []model.User, err error) {
+	err = d.GetDB().Where("id between ? and ?", minId, maxId).Find(&m).Error
+	return
+}
+
+//GetTenUserList 获取10个用户，从id为"nextId"开始
+func (d *Dao) GetTenUserList(c *core.Context, nextId interface{}) (m []model.User, err error) {
+	var maxId uint
+	if value, ok := nextId.(uint); ok {
+		maxId = value + 9
+	} else {
+		err = errors.New("nextId not uint")
+		return
+	}
+	m, err = d.GetUserList(c, nextId, maxId)
+	return
+}
+
 //GetUserGroups 获取用户所在的权限组
 func (d *Dao) GetUserGroups(c *core.Context, id interface{}) (m []model.UserInGroup, err error) {
 	//// SELECT * FROM user_in_group WHERE user_id = id;
@@ -114,20 +134,20 @@ func (d *Dao) DelUserInGroup(c *core.Context, id interface{}) (err error) {
 	return
 }
 
-//BindHTTPAddUserInfo 
+//BindHTTPAddUserInfo
 func (d *Dao) BindHTTPAddUserInfo(c *core.Context) (info model.HTTPAddUserInfo, err error) {
-    err = c.BindJSON(&info)
-    if err != nil {
-        return
-    }
-    return
+	err = c.BindJSON(&info)
+	if err != nil {
+		return
+	}
+	return
 }
 
-//BindHTTPUpdateUserBasisInfo 
+//BindHTTPUpdateUserBasisInfo
 func (d *Dao) BindHTTPUpdateUserBasisInfo(c *core.Context) (info model.HTTPUpdateUserBasisInfo, err error) {
-    err = c.BindJSON(&info)
-    if err != nil {
-        return
-    }
-    return
+	err = c.BindJSON(&info)
+	if err != nil {
+		return
+	}
+	return
 }

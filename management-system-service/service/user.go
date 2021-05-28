@@ -5,6 +5,7 @@ import (
 	"management-system-server/model"
 	log "management-system-server/util/logger"
 	"net/http"
+	"strconv"
 )
 
 //AddUser AddUser服务api逻辑处理
@@ -107,4 +108,30 @@ func (s *Service) UpdateUserBasis(c *core.Context) {
 	}
 
 	c.ReturnSuccess(true)
+}
+
+//GetUserList 获取用户列表服务api逻辑处理
+func (s *Service) GetUserList(c *core.Context) {
+	nextId, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		log.Error(err.Error(), err)
+		c.SetCode(http.StatusBadRequest)
+		return
+	}
+	m, err := s.dao.GetTenUserList(c, uint(nextId))
+	if err != nil {
+		log.Error(err.Error(), err)
+		c.SetCode(http.StatusInternalServerError)
+		return
+	}
+
+	allUser := make([]map[string]interface{}, len(m))
+	for i := 0; i < len(m); i++ {
+		allUser[i] = map[string]interface{}{"id": m[i].ID, "name": m[i].Name}
+	}
+
+	response := model.HTTPGetUserListResponse{
+		Users: allUser,
+	}
+	c.ReturnSuccess(response)
 }

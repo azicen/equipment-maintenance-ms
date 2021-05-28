@@ -5,6 +5,7 @@ import (
 	"management-system-server/model"
 	log "management-system-server/util/logger"
 	"net/http"
+	"strconv"
 	"time"
 )
 
@@ -82,4 +83,40 @@ func (s *Service) UpdateEquipment(c *core.Context) {
 	}
 
 	c.ReturnSuccess(true)
+}
+
+//GetEquipmentList 获取设备列表服务api逻辑处理
+func (s *Service) GetEquipmentList(c *core.Context) {
+	nextId, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		log.Error(err.Error(), err)
+		c.SetCode(http.StatusBadRequest)
+		return
+	}
+	m, err := s.dao.GetTenEquipmentList(c, uint(nextId))
+	if err != nil {
+		log.Error(err.Error(), err)
+		c.SetCode(http.StatusInternalServerError)
+		return
+	}
+
+	allEquipment := make([]map[string]interface{}, len(m))
+	for i := 0; i < len(m); i++ {
+		allEquipment[i] = map[string]interface{}{
+			"id":         m[i].ID,
+			"name":       m[i].Name,
+			"location":   m[i].Location,
+			"status":     m[i].Status,
+			"date":       m[i].Date,
+			"start_date": m[i].StartDate,
+			"deadline":   m[i].Deadline,
+			"type_id":    m[i].TypeID,
+			"user_id":    m[i].UserID,
+		}
+	}
+
+	response := model.HTTPGetEquipmentListResponse{
+		Equipments: allEquipment,
+	}
+	c.ReturnSuccess(response)
 }

@@ -8,7 +8,7 @@ import (
 
 //AddMaintain 添加维护表单
 func (d *Dao) AddMaintain(c *core.Context,
-	userID uint, equipmentID uint, date time.Time, status uint8, remark string) (m model.Maintain, err error) {
+	userID uint, equipmentID uint, date time.Time, status string, remark string) (m model.Maintain, err error) {
 
 	m = model.Maintain{
 		UserID:      userID,

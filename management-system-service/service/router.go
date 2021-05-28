@@ -47,6 +47,8 @@ func (s *Service) NewRouter() {
 		apiV1.POST(userName, core.Handle(s.AddUser))
 		apiV1.GET(userName+"/:id", core.Handle(s.GetUserBasis))
 		apiV1.PUT(userName+"/:id", core.Handle(s.UpdateUserBasis))
+
+		apiV1.GET("users/:id", core.Handle(s.GetUserList))
 	}
 	{
 		//设备类型
@@ -63,6 +65,8 @@ func (s *Service) NewRouter() {
 		apiV1.POST(equipmentName, core.Handle(s.AddEquipment))
 		apiV1.GET(equipmentName+"/:id", core.Handle(s.GetEquipment))
 		apiV1.PUT(equipmentName+"/:id", core.Handle(s.UpdateEquipment))
+
+		apiV1.GET("equipments/:id", core.Handle(s.GetEquipmentList))
 	}
 	{
 		//权限组

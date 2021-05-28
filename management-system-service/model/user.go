@@ -48,3 +48,8 @@ type HTTPUpdateUserBasisInfo struct {
 	Status uint8  `form:"status" json:"status" binding:"required"`
 	Groups []uint `form:"groups" json:"groups" binding:"required"`
 }
+
+//HTTPGetUserListResponse 获取用户列表HTTP回复模型
+type HTTPGetUserListResponse struct {
+	Users []map[string]interface{} `form:"users" json:"users" binding:"required"`
+}

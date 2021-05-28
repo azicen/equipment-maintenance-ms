@@ -55,3 +55,8 @@ type HTTPUpdateEquipmentInfo struct {
 	Date     uint64 `form:"date" json:"date" binding:"required"`
 	UserID   uint   `form:"user_id" json:"user_id" binding:"required"`
 }
+
+//HTTPGetEquipmentListResponse 获取设备列表HTTP回复模型
+type HTTPGetEquipmentListResponse struct {
+	Equipments []map[string]interface{} `form:"equipments" json:"equipments" binding:"required"`
+}
