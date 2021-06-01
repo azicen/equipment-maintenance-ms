@@ -5,7 +5,13 @@
     :label-position="labelPosition"
     label-width="120px"
   >
-    <el-form-item label="维护设备编号">
+  <el-form-item label="维护人 ID">
+      <el-input
+        onkeyup="this.value = this.value.replace(/[^\d.]/g,'');"
+        v-model="form.user_id"
+      ></el-input>
+    </el-form-item>
+    <el-form-item label="维护设备 ID">
       <el-input
         onkeyup="this.value = this.value.replace(/[^\d.]/g,'');"
         v-model="form.equipment_id"

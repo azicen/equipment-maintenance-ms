@@ -27,6 +27,7 @@
         <el-menu-item-group>
           <el-menu-item index="/root_home/add_group">添加权限组</el-menu-item>
           <el-menu-item index="/root_home/put_group">修改权限组</el-menu-item>
+          <el-menu-item index="/root_home/get_group">权限组列表</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
       <el-submenu index="4">
@@ -37,6 +38,17 @@
           >
           <el-menu-item index="/root_home/put_equipment_type"
             >修改设备类型</el-menu-item
+          >
+          <el-menu-item index="/root_home/get_equipment_type"
+            >设备类型列表</el-menu-item
+          >
+        </el-menu-item-group>
+      </el-submenu>
+      <el-submenu index="5">
+        <template #title><i class="el-icon-menu"></i>维护信息管理</template>
+        <el-menu-item-group>
+          <el-menu-item index="/root_home/get_maintain"
+            >维护信息列表</el-menu-item
           >
         </el-menu-item-group>
       </el-submenu>

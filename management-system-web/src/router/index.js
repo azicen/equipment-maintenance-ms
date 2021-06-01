@@ -8,16 +8,10 @@ const routes = [{
   component: Home
 },
 {
-  path: '/about',
+  path: '/maintain',
   name: 'About',
   component: () =>
-    import( /* webpackChunkName: "about" */ '../views/About.vue')
-},
-{
-  path: '/test',
-  name: 'Test',
-  component: () =>
-    import('../views/Test.vue')
+    import( /* webpackChunkName: "about" */ '../views/Maintain.vue')
 },
 {
   path: '/root_home',
@@ -54,10 +48,28 @@ const routes = [{
       import("../components/root/page/AddGroupPage.vue")
   },
   {
+    path: "/root_home/get_group",
+    name: "get-group",
+    component: () =>
+      import("../components/root/page/GetGroupListPage.vue")
+  },
+  {
     path: "/root_home/add_equipment_type",
     name: "add-equipment-type",
     component: () =>
       import("../components/root/page/AddEquipmentTypePage.vue")
+  },
+  {
+    path: "/root_home/get_equipment_type",
+    name: "get-equipment-type",
+    component: () =>
+      import("../components/root/page/GetEquipmentTypePage.vue")
+  },
+  {
+    path: "/root_home/get_maintain",
+    name: "get-maintain",
+    component: () =>
+      import("../components/root/page/GetMaintainListPage.vue")
   }
   ]
 }

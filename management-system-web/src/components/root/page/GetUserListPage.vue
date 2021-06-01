@@ -34,6 +34,11 @@
             </el-row>
           </template>
           <template #default="scope">
+            <el-button
+              size="mini"
+              @click="handleInquire(scope.$index, scope.row)"
+              >维护记录</el-button
+            >
             <el-button size="mini" @click="handleEdit(scope.$index, scope.row)"
               >编辑</el-button
             >
@@ -64,22 +69,40 @@
         >全部删除</el-button
       >
     </el-footer>
+    <InquireUserMaintainDialog
+      v-model="dialogVisible"
+      :user-id="userId"
+      ref="dialog"
+    />
   </el-container>
 </template>
 
 <script>
 import * as UserAPI from "@/api/user";
-
-export default {
+import InquireUserMaintainDialog from "@/components/root/dialog/InquireUserMaintainDialog.vue";
+import { defineComponent, ref } from "vue";
+export default defineComponent({
+  setup() {
+    const dialog = ref();
+    const refresh = () => {
+      dialog.value.refresh();
+    };
+    return { dialog, refresh };
+  },
+  components: {
+    InquireUserMaintainDialog,
+  },
   data() {
     return {
       userList: [],
       search: "",
       i: 0,
+      userId: 0,
       defaultHeight: {
         height: "",
       },
       visible: true,
+      dialogVisible: false,
     };
   },
   methods: {
@@ -89,6 +112,11 @@ export default {
         this.userList = this.userList.concat(res.data.users);
       });
       this.i = this.i + 9;
+    },
+    handleInquire(index, row) {
+      this.dialogVisible = true;
+      this.userId = row.id;
+      this.dialog.refresh();
     },
     handleSearch(index, row) {
       console.log(index, row);
@@ -100,6 +128,13 @@ export default {
       this.visible = false;
       console.log(index, row);
       this.visible = true;
+      UserAPI.delUser(row.id).then((res) => {
+        this.$notify({
+          title: "删除成功",
+          message: `您所删除的用户ID为${res.data.id}`,
+          type: "success",
+        });
+      });
     },
     //定义方法，获取高度减去头尾
     getHeight() {
@@ -114,7 +149,7 @@ export default {
     window.addEventListener("resize", this.getHeight);
     this.getHeight();
   },
-};
+});
 </script>
 
 <style>

@@ -5,25 +5,11 @@
         <el-table-column type="expand">
           <template #default="props">
             <el-form label-position="left" inline class="demo-table-expand">
-              <el-form-item label="类型 ID">
-                <span>{{ props.row.type_id }}</span>
-              </el-form-item>
-              <el-form-item label="位置">
-                <span>{{ props.row.location }}</span>
-              </el-form-item>
-              <el-form-item label="服役时间">
-                <span>{{ props.row.start_date }}</span>
-              </el-form-item>
-              <el-form-item label="预计退役时间">
-                <span>{{ props.row.deadline }}</span>
+              <el-form-item label="异常信息">
+                <span>{{ props.row.remark }}</span>
               </el-form-item>
               <el-form-item>
                 <el-footer height="25px">
-                  <el-button
-                    size="mini"
-                    @click="handleRetired(props.$index, props.row)"
-                    >提前退役</el-button
-                  >
                   <el-popover placement="top" :width="160" v-model="visible">
                     <p>确定删除吗？</p>
                     <div style="text-align: right; margin: 0">
@@ -49,12 +35,10 @@
             </el-form>
           </template>
         </el-table-column>
-        <el-table-column label="设备 ID" prop="id"> </el-table-column>
-        <el-table-column label="设备名称" prop="name"> </el-table-column>
+        <el-table-column label="维护人 ID" prop="user_id"> </el-table-column>
+        <el-table-column label="设备 ID" prop="equipment_id"> </el-table-column>
+        <el-table-column label="维护时间" prop="date"> </el-table-column>
         <el-table-column label="状态" prop="status"> </el-table-column>
-        <el-table-column label="近期维护时间" prop="date"> </el-table-column>
-        <el-table-column label="近期维护人 ID" prop="user_id">
-        </el-table-column>
       </el-table>
     </el-main>
 
@@ -65,13 +49,17 @@
 </template>
 
 <script>
-import * as EquipmentAPI from "@/api/equipment";
+import * as MaintainAPI from "@/api/maintain";
+import { defineComponent } from "vue";
 
-export default {
+export default defineComponent({
+  props: ["userId"],
+  setup() {},
   data() {
     return {
       tableData: [],
       search: "",
+      currentUserId: 0,
       i: 0,
       defaultHeight: {
         height: "",
@@ -81,9 +69,24 @@ export default {
   },
   methods: {
     getList() {
+      console.log("user_id: " + this.userId);
+      if (this.userId == undefined) {
+        if (this.currentUserId != 0) {
+          this.i = 0;
+          this.tableData = [];
+          this.currentUserId = 0;
+        }
+      } else {
+        if (this.currentUserId != this.userId) {
+          this.i = 0;
+          this.tableData = [];
+          this.currentUserId = this.userId;
+        }
+      }
       this.i = this.i + 1;
-      EquipmentAPI.getEquipments(this.i).then((res) => {
-        this.tableData = this.tableData.concat(res.data.equipments);
+      MaintainAPI.getMaintains(this.i, this.currentUserId).then((res) => {
+        this.tableData = this.tableData.concat(res.data.maintains);
+        console.log(res.data.maintains);
       });
       this.i = this.i + 9;
     },
@@ -94,10 +97,10 @@ export default {
       this.visible = false;
       console.log(index, row);
       this.visible = true;
-      EquipmentAPI.delEquipment(row.id).then((res) => {
+      MaintainAPI.delMaintain(row.id).then((res) => {
         this.$notify({
           title: "删除成功",
-          message: `您所删除的设备ID为${res.data.id}`,
+          message: `您所删除的维护信息ID为${res.data.id}`,
           type: "success",
         });
       });
@@ -137,7 +140,7 @@ export default {
     window.addEventListener("resize", this.getHeight);
     this.getHeight();
   },
-};
+});
 </script>
 
 <style>

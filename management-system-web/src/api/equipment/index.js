@@ -9,6 +9,9 @@ const getEquipment = id => axios.get(`/api/v1/equipment/${id}`).then(res => res.
 //修改设备信息
 const putEquipment = (id, form) => axios.put(`/api/v1/equipment/${id}`, form).then(res => res.data);
 
+//删除设备信息
+const delEquipment = id => axios.delete(`/api/v1/equipment/${id}`).then(res => res.data);
+
 //读取设备列表
 const getEquipments = id => axios.get(`/api/v1/equipments/${id}`).then(res => res.data);
 
@@ -16,6 +19,7 @@ export {
     postEquipment,
     getEquipment,
     putEquipment,
+    delEquipment,
 
     getEquipments,
 }
