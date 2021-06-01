@@ -61,22 +61,13 @@ func (d *Dao) SetEquipmentDate(c *core.Context, id interface{}, date time.Time) 
 	return
 }
 
-//GetEquipmentList 获取设备列表
-func (d *Dao) GetEquipmentList(c *core.Context, minId interface{}, maxId interface{}) (m []model.Equipment, err error) {
-	err = d.GetDB().Where("id between ? and ?", minId, maxId).Find(&m).Error
-	return
-}
-
 //GetTenEquipmentList 获取10个设备，从id为"nextId"开始
 func (d *Dao) GetTenEquipmentList(c *core.Context, nextId interface{}) (m []model.Equipment, err error) {
-	var maxId uint
-	if value, ok := nextId.(uint); ok {
-		maxId = value + 9
-	} else {
+	if _, ok := nextId.(uint); !ok {
 		err = errors.New("nextId not uint")
 		return
 	}
-	m, err = d.GetEquipmentList(c, nextId, maxId)
+	err = d.GetDB().Limit(10).Where("id >= ?", nextId).Find(&m).Error
 	return
 }
 

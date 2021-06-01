@@ -33,7 +33,7 @@ func (d *Dao) DelEquipmentType(c *core.Context, id interface{}) (err error) {
 	if err != nil {
 		return
 	}
-	err = d.GetDB().Create(&et).Error
+	err = d.GetDB().Delete(&et).Error
 	return
 }
 

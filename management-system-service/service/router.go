@@ -47,6 +47,7 @@ func (s *Service) NewRouter() {
 		apiV1.POST(userName, core.Handle(s.AddUser))
 		apiV1.GET(userName+"/:id", core.Handle(s.GetUserBasis))
 		apiV1.PUT(userName+"/:id", core.Handle(s.UpdateUserBasis))
+		apiV1.DELETE(userName+"/:id", core.Handle(s.DeleteUser))
 
 		apiV1.GET("users/:id", core.Handle(s.GetUserList))
 	}
@@ -56,6 +57,7 @@ func (s *Service) NewRouter() {
 		apiV1.POST(equipmentTypeName, core.Handle(s.AddEquipmentType))
 		apiV1.GET(equipmentTypeName+"/:id", core.Handle(s.GetEquipmentTypeBasis))
 		apiV1.PUT(equipmentTypeName+"/:id", core.Handle(s.UpdateEquipmentTypeBasis))
+		apiV1.DELETE(equipmentTypeName+"/:id", core.Handle(s.DeleteEquipmentType))
 
 		apiV1.GET("equipment_types", core.Handle(s.GetEquipmentType))
 	}
@@ -65,6 +67,7 @@ func (s *Service) NewRouter() {
 		apiV1.POST(equipmentName, core.Handle(s.AddEquipment))
 		apiV1.GET(equipmentName+"/:id", core.Handle(s.GetEquipment))
 		apiV1.PUT(equipmentName+"/:id", core.Handle(s.UpdateEquipment))
+		apiV1.DELETE(equipmentName+"/:id", core.Handle(s.DeleteEquipment))
 
 		apiV1.GET("equipments/:id", core.Handle(s.GetEquipmentList))
 	}
@@ -74,6 +77,7 @@ func (s *Service) NewRouter() {
 		apiV1.POST(group, core.Handle(s.AddGroup))
 		apiV1.GET(group+"/:id", core.Handle(s.GetGroup))
 		apiV1.PUT(group+"/:id", core.Handle(s.UpdateGroup))
+		apiV1.DELETE(group+"/:id", core.Handle(s.DeleteGroup))
 		//权限组列表
 		apiV1.GET("groups", core.Handle(s.GetGroupList))
 	}
@@ -82,6 +86,9 @@ func (s *Service) NewRouter() {
 		maintain := "maintain"
 		apiV1.POST(maintain, core.Handle(s.AddMaintain))
 		apiV1.GET(maintain+"/:id", core.Handle(s.GetMaintain))
+		apiV1.DELETE(maintain+"/:id", core.Handle(s.DeleteMaintain))
+		//维护信息列表
+		apiV1.GET("maintains", core.Handle(s.GetMaintainList))
 	}
 
 	s.router.Run(":3000")

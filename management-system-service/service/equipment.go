@@ -120,3 +120,20 @@ func (s *Service) GetEquipmentList(c *core.Context) {
 	}
 	c.ReturnSuccess(response)
 }
+
+//DeleteEquipment 删除设备服务api逻辑
+func (s *Service) DeleteEquipment(c *core.Context) {
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		log.Error(err.Error(), err)
+		c.SetCode(http.StatusBadRequest)
+		return
+	}
+	err = s.dao.DelEquipment(c, uint(id))
+	if err != nil {
+		log.Error(err.Error(), err)
+		c.SetCode(http.StatusInternalServerError)
+		return
+	}
+	c.ReturnSuccess(true)
+}

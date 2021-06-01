@@ -78,26 +78,17 @@ func (d *Dao) DelUser(c *core.Context, id interface{}) (err error) {
 	if err != nil {
 		return
 	}
-	err = d.GetDB().Save(u).Error
-	return
-}
-
-//GetUserList 获取用户列表
-func (d *Dao) GetUserList(c *core.Context, minId interface{}, maxId interface{}) (m []model.User, err error) {
-	err = d.GetDB().Where("id between ? and ?", minId, maxId).Find(&m).Error
+	err = d.GetDB().Delete(u).Error
 	return
 }
 
 //GetTenUserList 获取10个用户，从id为"nextId"开始
 func (d *Dao) GetTenUserList(c *core.Context, nextId interface{}) (m []model.User, err error) {
-	var maxId uint
-	if value, ok := nextId.(uint); ok {
-		maxId = value + 9
-	} else {
+	if _, ok := nextId.(uint); !ok {
 		err = errors.New("nextId not uint")
 		return
 	}
-	m, err = d.GetUserList(c, nextId, maxId)
+	err = d.GetDB().Limit(10).Where("id >= ?", nextId).Find(&m).Error
 	return
 }
 

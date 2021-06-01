@@ -135,3 +135,20 @@ func (s *Service) GetUserList(c *core.Context) {
 	}
 	c.ReturnSuccess(response)
 }
+
+//DeleteUser 删除用户服务api逻辑
+func (s *Service) DeleteUser(c *core.Context) {
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		log.Error(err.Error(), err)
+		c.SetCode(http.StatusBadRequest)
+		return
+	}
+	err = s.dao.DelUser(c, uint(id))
+	if err != nil {
+		log.Error(err.Error(), err)
+		c.SetCode(http.StatusInternalServerError)
+		return
+	}
+	c.ReturnSuccess(true)
+}

@@ -38,3 +38,8 @@ type HTTPGetMaintainResponse struct {
 	Status      string  `form:"status" json:"status" binding:"required"`
 	Remark      string `form:"remark" json:"remark"`
 }
+
+//HTTPGetMaintainListResponse 获取维护信息列表HTTP回复模型
+type HTTPGetMaintainListResponse struct {
+	Maintains []map[string]interface{} `form:"maintains" json:"maintains" binding:"required"`
+}

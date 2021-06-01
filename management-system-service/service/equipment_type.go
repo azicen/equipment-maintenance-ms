@@ -5,6 +5,7 @@ import (
 	"management-system-server/model"
 	log "management-system-server/util/logger"
 	"net/http"
+	"strconv"
 )
 
 //AddEquipmentType 添加设备类型服务api逻辑处理
@@ -129,4 +130,21 @@ func (s *Service) GetEquipmentType(c *core.Context) {
 		EquipmentTypes: allEquipmentType,
 	}
 	c.ReturnSuccess(response)
+}
+
+//DeleteEquipmentType 删除设备服务api逻辑
+func (s *Service) DeleteEquipmentType(c *core.Context) {
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		log.Error(err.Error(), err)
+		c.SetCode(http.StatusBadRequest)
+		return
+	}
+	err = s.dao.DelEquipmentType(c, uint(id))
+	if err != nil {
+		log.Error(err.Error(), err)
+		c.SetCode(http.StatusInternalServerError)
+		return
+	}
+	c.ReturnSuccess(true)
 }

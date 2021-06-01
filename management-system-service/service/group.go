@@ -5,6 +5,7 @@ import (
 	"management-system-server/model"
 	log "management-system-server/util/logger"
 	"net/http"
+	"strconv"
 )
 
 //AddGroup 添加权限组服务api逻辑处理
@@ -87,5 +88,22 @@ func (s *Service) UpdateGroup(c *core.Context) {
 		return
 	}
 
+	c.ReturnSuccess(true)
+}
+
+//DeleteGroup 删除权限组服务api逻辑
+func (s *Service) DeleteGroup(c *core.Context) {
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		log.Error(err.Error(), err)
+		c.SetCode(http.StatusBadRequest)
+		return
+	}
+	err = s.dao.DelGroup(c, uint(id))
+	if err != nil {
+		log.Error(err.Error(), err)
+		c.SetCode(http.StatusInternalServerError)
+		return
+	}
 	c.ReturnSuccess(true)
 }
