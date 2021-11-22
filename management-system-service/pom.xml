@@ -8,11 +8,11 @@
         <version>2.6.0</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.springboot</groupId>
-    <artifactId>service</artifactId>
+    <groupId>com.springboot.server</groupId>
+    <artifactId>server</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>service</name>
-    <description>service</description>
+    <name>management-system-service</name>
+    <description>management-system-service</description>
     <properties>
         <java.version>1.8</java.version>
     </properties>
