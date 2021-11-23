@@ -7,7 +7,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import WordRotation from "@/views/component/data-display/WordRotation.vue";
 import LoginForm from "@/views/component/form/LoginForm.vue";
 

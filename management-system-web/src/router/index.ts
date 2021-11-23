@@ -1,8 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Home from '../views/Home.vue';
-import LoginPage from "@/views/page/LoginPage.vue";
-import CreateMaintainForm from "@/views/component/form/CreateMaintainForm.vue";
-// import LoginForm from "@/views/component/form/LoginForm";
+import Home from '../views/Home.vue'
+import LoginPage from "@/views/page/LoginPage.vue"
+import TestPage from "@/views/page/TestPage.vue"
 
 const routes = [
   {
@@ -23,7 +22,7 @@ const routes = [
   {
     path: '/test',
     name: 'Test',
-    component: CreateMaintainForm,
+    component: TestPage,
   }
 ]
 
