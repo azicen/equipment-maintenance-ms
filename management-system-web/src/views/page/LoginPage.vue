@@ -1,13 +1,15 @@
 <template>
-  <div class="login">
+  <div class="login-page">
     <WordRotation/>
-    <LoginForm/>
+    <el-card class="login-form-box-card">
+      <LoginForm/>
+    </el-card>
   </div>
 </template>
 
 <script>
-import WordRotation from "@/views/component/data-display/WordRotation";
-import LoginForm from "@/views/component/form/LoginForm";
+import WordRotation from "@/views/component/data-display/WordRotation.vue";
+import LoginForm from "@/views/component/form/LoginForm.vue";
 
 export default {
   name: 'Login',
@@ -17,3 +19,11 @@ export default {
   }
 }
 </script>
+
+<style>
+.login-form-box-card {
+  margin: 0 25%;
+  width: 480px;
+  height: 200px;
+}
+</style>

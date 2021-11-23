@@ -6,7 +6,7 @@
         <span data-show>Starting on 2021.11.22</span>
         <span>BY strluck AND null122</span>
         <span>Completed in 2021.xx.xx</span>
-        <span>an arcade.</span>
+        <span>xxxxxxxxxxxxxxxxxxxxxxx</span>
       </div>
     </h2>
   </div>
