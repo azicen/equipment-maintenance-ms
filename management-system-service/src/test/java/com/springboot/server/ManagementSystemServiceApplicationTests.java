@@ -1,12 +1,10 @@
 package com.springboot.server;
 
 import com.springboot.server.entity.User;
-import com.springboot.server.entity.UserMapper;
+import com.springboot.server.mapper.UserMapper;
 import org.junit.jupiter.api.Test;
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.util.Assert;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -19,12 +17,13 @@ class ManagementSystemServiceApplicationTests {
 
     @Test
     public void testSelect() {
-        System.out.println(("----- selectAll method test ------"));
-        List<User> userList = userMapper.selectList(null);
-        userList.forEach(System.out::println);
-    }
-    @Test
-    void contextLoads() {
+        User user=new User();
+        user.setName("null13");
+        user.setAge(18);
+//        user.setId(9l);
+        user.setEmail("1229608477@qq.com");
+        int insert = userMapper.insert(user);
+        System.out.println(insert);
     }
 
 }
