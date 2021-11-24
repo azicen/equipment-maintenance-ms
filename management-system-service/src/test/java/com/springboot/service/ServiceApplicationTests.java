@@ -1,17 +1,14 @@
 package com.springboot.service;
 
-import com.springboot.service.entity.User;
-import com.springboot.service.mapper.userMapper;
+import com.springboot.service.mapper.UserMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.List;
-
 @SpringBootTest
 class ServiceApplicationTests {
     @Autowired
-    userMapper userMapper;
+    UserMapper userMapper;
 
     @Test
     void contextLoads() {
