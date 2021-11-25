@@ -1,11 +1,13 @@
 package com.springboot.service.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import javax.persistence.*;
 
 @Entity
 @Data
 @Table(name = "tb_user")
+@JsonIgnoreProperties(value={"hibernateLazyInitializer","handler","fieldHandler"})
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
