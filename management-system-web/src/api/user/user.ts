@@ -1,4 +1,4 @@
-import {AxiosRequestConfig, AxiosPromise} from 'axios'
+import {AxiosRequestConfig, AxiosPromise, AxiosResponse} from 'axios'
 import {BaseRequest} from "@/api/base-request";
 
 const URL: string = "/user"
@@ -9,7 +9,8 @@ export class UserApi extends BaseRequest {
         super(URL);
     }
 
-    public getUser(id: number, config?: AxiosRequestConfig) : AxiosPromise {
-        return this.get(`/${id}`, null, config)
+    public getUser<T = any, R = AxiosResponse<T>, D = any>(id: number, config?: AxiosRequestConfig<D>): Promise<R> {
+        return this.get(`/${id}`, config)
+        // return axios.get(`/user/${id}`)
     }
 }

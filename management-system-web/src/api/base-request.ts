@@ -1,66 +1,95 @@
 import axios, {AxiosInstance, AxiosRequestConfig, AxiosPromise, AxiosResponse} from 'axios';
 import {Request} from "@/api/request";
 
+export interface ModifyFunction<D> {
+    <D = any>(config: AxiosRequestConfig<D>): AxiosRequestConfig<D>
+}
+
 export abstract class BaseRequest implements Request {
 
     // 接口请求路径
     protected url: string
-    // 请求超时的毫秒数(0 表示无超时时间)
-    protected timeout: number = 1000
 
     // axios实例
     protected instance: AxiosInstance
 
-    protected constructor(url: string, timeout?: number) {
+    protected constructor(url: string) {
         this.url = url
-        if (typeof timeout === 'number') {
-            this.timeout = timeout
-        }
         // 创建一个axios实例
         this.instance = axios.create()
     }
 
-    public get<T>(url: string, data?: T, config?: AxiosRequestConfig<T>): AxiosPromise {
-        return this.request('GET', url, data, config)
+    public get<T = any, R = AxiosResponse<T>, D = any>(url: string, config?: AxiosRequestConfig<D>): Promise<R> {
+        return this.baseRequest(config, this.modifyBase('GET', url))
     }
 
-    public delete<T>(url: string, data?: T, config?: AxiosRequestConfig<T>): AxiosPromise {
-        return this.request('DELETE', url, data, config)
+    public delete<T = any, R = AxiosResponse<T>, D = any>(url: string, config?: AxiosRequestConfig<D>): Promise<R> {
+        return this.baseRequest(config, this.modifyBase('DELETE', url))
     }
 
-    public post<T>(url: string, data?: T, config?: AxiosRequestConfig<T>): AxiosPromise {
-        return this.request('POST', url, data, config)
+    public head<T = any, R = AxiosResponse<T>, D = any>(url: string, config?: AxiosRequestConfig<D>): Promise<R> {
+        return this.baseRequest(config, this.modifyBase('HEAD', url))
     }
 
-    public put<T>(url: string, data?: T, config?: AxiosRequestConfig<T>): AxiosPromise {
-        return this.request('PUT', url, data, config)
+    public options<T = any, R = AxiosResponse<T>, D = any>(url: string, config?: AxiosRequestConfig<D>): Promise<R> {
+        return this.baseRequest(config, this.modifyBase('OPTIONS', url))
+    }
+    
+    public post<T = any, R = AxiosResponse<T>, D = any>
+    (url: string, data?: T, config?: AxiosRequestConfig<D>): Promise<R> {
+        return this.baseRequest(
+            config,
+            this.modifyBase('POST', url),
+            this.modifyData(data),
+        )
     }
 
-    public head<T>(url: string, data?: T, config?: AxiosRequestConfig<T>): AxiosPromise {
-        return this.request('HEAD', url, data, config)
+    public put<T = any, R = AxiosResponse<T>, D = any>
+    (url: string, data?: T, config?: AxiosRequestConfig<D>): Promise<R> {
+        return this.baseRequest(
+            config,
+            this.modifyBase('PUT', url),
+            this.modifyData(data),
+        )
     }
 
-    public options<T>(url: string, data?: T, config?: AxiosRequestConfig<T>): AxiosPromise {
-        return this.request('OPTIONS', url, data, config)
+    public patch<T = any, R = AxiosResponse<T>, D = any>
+    (url: string, data?: T, config?: AxiosRequestConfig<D>): Promise<R> {
+        return this.baseRequest(
+            config,
+            this.modifyBase('PATCH', url),
+            this.modifyData(data),
+        )
     }
 
-    public patch<T>(url: string, data?: T, config?: AxiosRequestConfig<T>): AxiosPromise {
-        return this.request('PATCH', url, data, config)
-    }
-
-    public request<T>(method: string, url: string, data?: T, config?: AxiosRequestConfig<T>): AxiosPromise {
-        let conf: AxiosRequestConfig<T> = {}
-        if (typeof config !== undefined) {
-            conf = <AxiosRequestConfig<T>>config
+    public modifyBase<D = any>(method: string, url: string): ModifyFunction<D> {
+        const mainUrl = this.url
+        return function <D>(config: AxiosRequestConfig<D>): AxiosRequestConfig<D> {
+            return Object.assign(<AxiosRequestConfig>{
+                url: mainUrl + url,
+                method: method,
+            }, config)
         }
-        if (typeof data !== undefined) {
-            Object.assign(<AxiosRequestConfig>{data: data}, config)
+    }
+
+    public modifyData<D>(data: D): ModifyFunction<D> {
+        return function <D>(config: AxiosRequestConfig<D>): AxiosRequestConfig<D> {
+            return Object.assign({
+                data: data,
+            }, config)
         }
-        Object.assign(<AxiosRequestConfig>{
-            url: this.url + url,
-            method: method,
-            timeout: this.timeout,
-        }, config)
-        return this.instance.request(conf)
+    }
+
+    public baseRequest<T = any, R = AxiosResponse<T>, D = any>
+    (config?: AxiosRequestConfig<D>, ...modifies: ModifyFunction<D>[]): Promise<R> {
+        let conf: AxiosRequestConfig<D> = (typeof config === 'undefined') ? {} : config
+        for (let i = 0; i < modifies.length; i++) {
+            conf = modifies[i](conf)
+        }
+        return this.request(conf)
+    }
+
+    public request<T = any, R = AxiosResponse<T>, D = any>(config: AxiosRequestConfig<D>): Promise<R> {
+        return this.instance.request(config)
     }
 }

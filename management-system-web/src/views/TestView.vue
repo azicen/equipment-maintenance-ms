@@ -17,7 +17,6 @@ export default defineComponent({
   // 已启用类型推断
   name: 'Test',
   setup() {
-
     const userApi = new UserApi()
 
     let user: User
@@ -25,26 +24,12 @@ export default defineComponent({
     onMounted(() => {
       userApi.getUser(1).then((res) => {
         console.log(res)
-        user = res.data
+        user = res.data.data
         console.log(user)
       })
     })
   }
 })
-
-// export default {
-//   name: 'Login',
-//   components: {
-//   },
-//   data() {
-//     return {
-//
-//     };
-//   },
-//   created() {
-//
-//   },
-// }
 </script>
 
 <style>

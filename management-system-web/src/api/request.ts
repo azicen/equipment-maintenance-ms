@@ -1,5 +1,5 @@
-import {AxiosRequestConfig, AxiosPromise} from 'axios'
+import {AxiosRequestConfig, AxiosPromise, AxiosResponse} from 'axios'
 
 export interface Request {
-    request<T>(method: string, url: string, data?: T, config?: AxiosRequestConfig<T>): AxiosPromise
+    request<T = any, R = AxiosResponse<T>, D = any>(config: AxiosRequestConfig<D>): Promise<R>
 }
