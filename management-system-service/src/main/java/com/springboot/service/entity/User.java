@@ -6,6 +6,8 @@ import javax.persistence.*;
 
 @Entity
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "tb_user")
 @JsonIgnoreProperties(value={"hibernateLazyInitializer","handler","fieldHandler"})
 public class User {
@@ -13,9 +15,9 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;         //  id
     @Column(length = 20)
-    private String Name;        //姓名
+    private String name;        //姓名
     @Column(length = 20)
-    private String PassWord;    //密码
+    private String passWord;    //密码
     @Column(length = 20)
-    private String Status;     //账号状态
+    private String status;     //账号状态
 }

@@ -9,7 +9,7 @@
 ```json
 {
     "name": "string",
-    "passwd": "string",
+    "passwd": "string"
 }
 ```
 
@@ -25,7 +25,7 @@
 {
 	"name": "string",
 	"status": "uint",
-	"group": "uint",
+	"group": "uint"
 }
 ```
 
@@ -41,7 +41,7 @@
 {
     "name": "string",
     "status": "uint",
-    "group": "uint",
+    "group": "uint"
 }
 ```
 
@@ -68,9 +68,8 @@ end:		uint	// 结束id
     {
         "name": "string",
         "status": "uint",
-        "group": "uint",
-	},
-    ...
+        "group": "uint"
+	}
 ]
 
 ```
