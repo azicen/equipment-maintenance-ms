@@ -58,6 +58,7 @@ public class Result implements Serializable {
         GLOBAL_SUCCESS(200),
         GLOBAL_FAIL(400),
         SHIRO_FAIL(401),
+        NOT_FOND(404),
         LOGIN_TOKEN_FAIL(410),
         PASSWORD_FAIL(420);
 
