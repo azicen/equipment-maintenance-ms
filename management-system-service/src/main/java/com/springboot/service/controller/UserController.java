@@ -13,7 +13,7 @@ import java.util.Optional;
 
 @ResponseBody
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping("/api/v1/user")
 public class UserController {
     @Autowired
     private UserRepository userRepository;
