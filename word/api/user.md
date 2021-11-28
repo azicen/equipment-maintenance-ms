@@ -55,7 +55,7 @@
 
 ### 获取用户基本信息列表
 
-路由地址：/api/users/?begin=:begin&end=:end
+路由地址：/api/user/?begin=:begin&end=:end
 
 begin:	 uint	// 起始id
 

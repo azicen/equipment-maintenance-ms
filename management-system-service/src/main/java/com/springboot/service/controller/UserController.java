@@ -5,9 +5,12 @@ import com.springboot.service.common.lang.Result;
 import com.springboot.service.entity.User;
 import com.springboot.service.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,9 +21,31 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
-    @GetMapping("/findAll")
-    public List<User> findAll(){
+    /**
+     * 获取全部用户列表
+     * @return 返回用户列表
+     */
+    private List<User> findAll(){
         return userRepository.findAll();
+    }
+
+    /**
+     * 分页查询
+     * @param begin 起始页数
+     * @param end 当前页数有多少条数据
+     * @return 返回object列表表示当前页数的数据对象
+     */
+    @GetMapping("/list")
+    public List<Object> getBeginToEndUser(int begin, int end){
+        Pageable pageable= PageRequest.of(begin,end);
+        List<User> findRes=userRepository.findAll(pageable).getContent();
+        List<Object> res=new ArrayList<>();
+        findRes.forEach((User u)-> res.add(MapUtil.builder()
+                .put("Status",u.getStatus())
+                .put("name",u.getName())
+                .put("id",u.getId())
+                .map()));
+        return res;
     }
 
     /**
