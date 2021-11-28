@@ -1,4 +1,4 @@
-package com.springboot.service.entity;
+package com.springboot.service.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;

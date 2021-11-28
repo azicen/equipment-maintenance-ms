@@ -1,7 +1,6 @@
 package com.springboot.service;
 
-import com.springboot.service.controller.UserController;
-import com.springboot.service.entity.User;
+import com.springboot.service.Controller.UserController;
 import com.springboot.service.Repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package com.springboot.service.common.lang;
+package com.springboot.service.common.Lang;
 
 import lombok.Data;
 

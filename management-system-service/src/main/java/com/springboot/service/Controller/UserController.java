@@ -1,18 +1,6 @@
-package com.springboot.service.controller;
+package com.springboot.service.Controller;
 
-import cn.hutool.core.map.MapUtil;
-import com.springboot.service.common.lang.Result;
-import com.springboot.service.entity.User;
-import com.springboot.service.Repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 @ResponseBody
 @RestController

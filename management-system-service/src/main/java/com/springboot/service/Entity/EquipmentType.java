@@ -1,4 +1,4 @@
-package com.springboot.service.entity;
+package com.springboot.service.Entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,8 +10,8 @@ import javax.persistence.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name="tb_user_in_group")
-public class UserInGroup {
+@Table(name = "tb_equipment_type")
+public class EquipmentType {
     /**
      * id
      */
@@ -19,11 +19,11 @@ public class UserInGroup {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     /**
-     * 用户id
+     * 设备姓名
      */
-    private Integer userId;
+    private String name;
     /**
-     * 权限id
+     * 维护周期
      */
-    private Integer groupId;
+    private Integer Cycle;
 }
