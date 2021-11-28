@@ -11,13 +11,22 @@ import javax.persistence.*;
 @Table(name = "tb_user")
 @JsonIgnoreProperties(value={"hibernateLazyInitializer","handler","fieldHandler"})
 public class User {
+    /**
+     * id
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;         //  id
-    @Column(length = 20)
-    private String name;        //姓名
-    @Column(length = 20)
-    private String passWord;    //密码
-    @Column(length = 20)
-    private String status;     //账号状态
+    private Integer id;
+    /**
+     * 名字
+     */
+    private String name;
+    /**
+     * 密码
+     */
+    private String passWord;
+    /**
+     * 状态
+     */
+    private String status;
 }
