@@ -10,14 +10,15 @@
 <script lang="ts">
 import WordRotation from "@/components/data-display/WordRotation.vue";
 import LoginForm from "@/components/form/LoginForm.vue";
+import {defineComponent} from "vue";
 
-export default {
+export default defineComponent({
   name: 'Login',
   components: {
     WordRotation,
     LoginForm,
   }
-}
+})
 </script>
 
 <style>

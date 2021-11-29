@@ -1,5 +1,6 @@
 <template>
   <h5>test</h5>
+  <img src="@/assets/logo.png" alt="图片"/>
 </template>
 
 <script lang="ts">

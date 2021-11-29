@@ -1,18 +1,21 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import Home from '../views/Home.vue'
-import LoginPage from "@/views/LoginView.vue"
+import {createRouter, createWebHistory, RouteRecordRaw} from 'vue-router'
+import Home from '@/views/Home.vue'
+import Admin from "@/views/Admin.vue"
+import LoginPage from "@/views/Login.vue"
 import TestPage from "@/views/TestView.vue"
 
-const routes = [
+import AdminHome from "@/views/admin/AdminHome.vue"
+
+export const routes: RouteRecordRaw[] = [
   {
     path: '/',
     name: 'Home',
-    component: Home
+    component: Home,
   },
   {
-    path: '/about',
-    name: 'About',
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+    path: '/admin',
+    name: 'Admin',
+    component: Admin,
   },
   {
     path: '/login',
@@ -23,6 +26,18 @@ const routes = [
     path: '/test',
     name: 'Test',
     component: TestPage,
+  },
+  {
+    path: '/admin',
+    name: 'Admin',
+    component: Admin,
+    children: [
+      {
+        path: "/admin",
+        name: "AdminHome",
+        component: AdminHome,
+      },
+    ]
   }
 ]
 

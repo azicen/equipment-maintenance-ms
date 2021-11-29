@@ -1,4 +1,4 @@
-import axios, {AxiosInstance, AxiosRequestConfig, AxiosPromise, AxiosResponse} from 'axios';
+import axios, {AxiosInstance, AxiosRequestConfig, AxiosResponse} from 'axios';
 import {Request} from "@/api/request";
 
 export interface ModifyFunction<D> {
@@ -36,7 +36,7 @@ export abstract class BaseRequest implements Request {
     }
     
     public post<T = any, R = AxiosResponse<T>, D = any>
-    (url: string, data?: T, config?: AxiosRequestConfig<D>): Promise<R> {
+    (url: string, data?: D, config?: AxiosRequestConfig<D>): Promise<R> {
         return this.baseRequest(
             config,
             this.modifyBase('POST', url),
@@ -45,7 +45,7 @@ export abstract class BaseRequest implements Request {
     }
 
     public put<T = any, R = AxiosResponse<T>, D = any>
-    (url: string, data?: T, config?: AxiosRequestConfig<D>): Promise<R> {
+    (url: string, data?: D, config?: AxiosRequestConfig<D>): Promise<R> {
         return this.baseRequest(
             config,
             this.modifyBase('PUT', url),
@@ -54,7 +54,7 @@ export abstract class BaseRequest implements Request {
     }
 
     public patch<T = any, R = AxiosResponse<T>, D = any>
-    (url: string, data?: T, config?: AxiosRequestConfig<D>): Promise<R> {
+    (url: string, data?: D, config?: AxiosRequestConfig<D>): Promise<R> {
         return this.baseRequest(
             config,
             this.modifyBase('PATCH', url),
