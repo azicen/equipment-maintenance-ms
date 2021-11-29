@@ -28,5 +28,5 @@ public class User {
     /**
      * 状态
      */
-    private String status;
+    private Boolean status;
 }

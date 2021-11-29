@@ -8,4 +8,5 @@ import org.springframework.transaction.annotation.Transactional;
 public interface UserRepository extends JpaRepository<User,Integer> {
     @Transactional
     void deleteAllById(Integer id);
+    User findAllByIdAndPasswd(Integer id,String passwd);
 }

@@ -45,7 +45,7 @@ public class UserController {
      */
     @PutMapping("/")
     public Result addUser(@RequestHeader("name") String name, @RequestHeader("passwd") String passwd){
-        User user=userRepository.save(new User(null,name,passwd,"0"));
+        User user=userRepository.save(new User(null,name,passwd,false));
         return Result.success(MapUtil.builder().put("id",user.getId()).map());
     }
 
@@ -113,7 +113,7 @@ public class UserController {
      */
     @PostMapping("/{id}")
     public Result updateUser(@PathVariable("id") Integer id,@RequestHeader("name") String name
-            ,@RequestHeader("passwd") String passwd,@RequestHeader("status")String status){
+            ,@RequestHeader("passwd") String passwd,@RequestHeader("status")Boolean status){
         Optional<User> option=userRepository.findById(id);
         if(!option.isPresent()){
             return Result.fail(Result.CODE.NOT_FOND,"未找到该用户",null);
