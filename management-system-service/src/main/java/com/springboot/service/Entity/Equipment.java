@@ -12,9 +12,9 @@ import java.sql.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "tb_machine")
-@JsonIgnoreProperties(value={"hibernateLazyInitializer","handler","fieldHandler"})
-public class Machine {
+@Table(name = "tb_equipment")
+@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler", "fieldHandler"})
+public class Equipment {
     /**
      * 设备id
      */
@@ -34,10 +34,6 @@ public class Machine {
      */
     private String status;
     /**
-     * 近期维护日期
-     */
-    private Date date;
-    /**
      * 开始服役日期
      */
     private Date startDate;
@@ -48,7 +44,7 @@ public class Machine {
     /**
      * 类型编号
      */
-    private String groupId;
+    private String typeId;
     /**
      * 创建人员编号
      */

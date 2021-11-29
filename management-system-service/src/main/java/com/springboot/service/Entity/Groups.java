@@ -21,5 +21,5 @@ public class Groups {
     /**
      * 权限组姓名
      */
-    private String groupName;
+    private String name;
 }

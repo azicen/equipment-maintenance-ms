@@ -21,9 +21,9 @@ public class EquipmentInGroup {
     /**
      * 权限组编号
      */
-    private Integer GroupId;
+    private Integer groupId;
     /**
-     * 类别编号
+     * 设备编号
      */
-    private Integer EquipmentId;
+    private Integer equipmentId;
 }

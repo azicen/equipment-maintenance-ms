@@ -24,7 +24,7 @@ public class User {
     /**
      * 密码
      */
-    private String passWord;
+    private String passwd;
     /**
      * 状态
      */

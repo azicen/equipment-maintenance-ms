@@ -25,5 +25,5 @@ public class EquipmentType {
     /**
      * 维护周期
      */
-    private Integer Cycle;
+    private Integer cycle;
 }

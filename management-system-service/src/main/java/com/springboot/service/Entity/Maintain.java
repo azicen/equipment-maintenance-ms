@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.sql.Timestamp;
 
 @Entity
 @Data
@@ -30,11 +30,11 @@ public class Maintain {
     /**
      * 维护日期
      */
-    private Date date;
+    private Timestamp date;
     /**
      * 结果
      */
-    private String Status;
+    private String status;
     /**
      * 异常情况
      */
