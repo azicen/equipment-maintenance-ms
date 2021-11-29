@@ -31,19 +31,21 @@ export default defineComponent({
 <style>
 html, body, #app {
   width: 100%;
+  height: 100%;
   margin: 0;
   padding: 0;
 }
 
 .top-bar {
+  border: 1px #b3c0d1 solid;
   background-color: #b3c0d1;
-  line-height: 60px;
   width: 100%;
 }
 
 .aside-bar {
   background-color: #b3c0d1;
   width: 200px;
+  height: 100%;
   /*background-color: rgb(255, 255, 255);*/
 }
 </style>

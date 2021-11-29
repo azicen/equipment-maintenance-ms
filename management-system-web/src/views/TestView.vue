@@ -6,13 +6,7 @@
 <script lang="ts">
 import {defineComponent} from 'vue'
 import {onMounted} from 'vue'
-import {UserApi} from "@/api/user/user"
-
-interface User {
-  name: string,
-  status: number,
-  group: number,
-}
+import {UserApi, UserData} from "@/api/user/user"
 
 export default defineComponent({
   // 已启用类型推断
@@ -20,12 +14,12 @@ export default defineComponent({
   setup() {
     const userApi = new UserApi()
 
-    let user: User
+    let user: UserData
 
     onMounted(() => {
       userApi.getUser(1).then((res) => {
         console.log(res)
-        user = res.data.data
+        user = res.data
         console.log(user)
       })
     })
