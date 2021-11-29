@@ -1,7 +1,15 @@
-import {AxiosRequestConfig, AxiosResponse} from 'axios'
-import {BaseRequest} from "@/api/base-request";
+import {BaseRequest} from "@/api/base-request"
 
-const URL: string = "/user"
+import {DetailedResponse, Response} from "@/api/response-data"
+
+// 后端路由
+const URL: string = "/api/v1/user"
+
+// 用户数据
+export interface UserData {
+    name: string,
+    status: boolean,
+}
 
 export class UserApi extends BaseRequest {
 
@@ -9,12 +17,101 @@ export class UserApi extends BaseRequest {
         super(URL);
     }
 
-    public addUser<T = any, R = AxiosResponse<T>, D = any>
-    (id: number, data: D, config?: AxiosRequestConfig<D>): Promise<R> {
-        return this.post("", data, config)
+    // 很骚，但不能用
+    // public addUser<R = AxiosResponse<{ id: number }>>(id: number, data: AddUserData): Promise<R> {
+    //     return this.put("", data).then(res => res.data)
+    // }
+
+    /**
+     * 添加用户
+     * @param name 用户姓名
+     * @param passwd 用户密码
+     * @return { id: number } 创建成功后的用户ID
+     */
+    public addUser(name: string, passwd: string): Response<{ id: number }> {
+        // 添加的用户数据
+        const data = {
+            name: name,
+            passwd: passwd,
+        }
+        return this.put("", data).then((res: DetailedResponse<{ id: number }>) => res.data)
     }
 
-    public getUser<T = any, R = AxiosResponse<T>, D = any>(id: number, config?: AxiosRequestConfig<D>): Promise<R> {
-        return this.get(`/${id}`, config)
+    /**
+     * 根据id查找用户
+     * @param id 用户id
+     * @return UserData 返回用户数据
+     */
+    public getUser(id: number): Response<UserData> {
+        return this.get(`/${id}`)
+            // 消息预处理
+            .then((res: DetailedResponse<UserData>) => res.data)
+    }
+
+    /**
+     * 根据id删除用户
+     * @param id 要删除的用户id
+     */
+    public deleteUser(id: number): Response<any> {
+        return this.delete(`/${id}`).then((res: DetailedResponse<any>) => res.data)
+    }
+
+    /**
+     * 修改用户数据
+     * @param id 需要修改的用户id,由路由/api/user/id获得
+     * @param name 修改后的姓名
+     * @param passwd 修改后的密码
+     */
+    public updateUser(id: number, name: string, passwd: string): Response<any> {
+        const data = {
+            name: name,
+            passwd: passwd,
+        }
+        return this.post(`/${id}`, data).then((res: DetailedResponse<any>) => res.data)
+    }
+
+    /**
+     * 分页查询
+     * @param n 起始页数
+     * @param page 当前页数有多少条数据
+     * @return UserData[] 返回用户数据集合
+     */
+    public getUsers(n: number, page: number): Response<UserData[]> {
+        return this.get(
+            `/list`,
+            {
+                params: {
+                    n: n,
+                    page: page,
+                }
+            },
+        ).then((res: DetailedResponse<UserData[]>) => res.data)
+    }
+
+    /**
+     * 将用户添加到权限组
+     * @param userId 用户id
+     * @param groupId 权限组id
+     */
+    public addUserGroup(userId: number, groupId: number): Response<any> {
+        return this.put(`/${userId}/group/${groupId}`).then((res: DetailedResponse<any>) => res.data)
+    }
+
+    /**
+     * 获取用户权限组
+     * @param id 需要访问的用户id
+     * @return { group: number }[] 返回用户所在的所有权限组
+     */
+    public getUserGroup(id: number): Response<{ group: number }[]> {
+        return this.get(`/${id}`).then((res: DetailedResponse<{ group: number }[]>) => res.data)
+    }
+
+    /**
+     * 删除指定用户的权限组
+     * @param userId 用户id
+     * @param groupId 权限组id
+     */
+    public deleteUserGroup(userId: number, groupId: number): Response<any> {
+        return this.delete(`/${userId}/group/${groupId}`).then((res: DetailedResponse<any>) => res.data)
     }
 }
