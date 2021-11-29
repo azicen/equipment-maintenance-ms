@@ -23,7 +23,7 @@ export abstract class BaseRequest implements Request {
         return this.baseRequest(config, this.modifyBase('GET', url))
     }
 
-    public delete<T = any, R = AxiosResponse<T>, D = any>(url: string, config?: AxiosRequestConfig<D>): Promise<R> {
+    public delete<T = any, R = AxiosResponse<T>>(url: string, config?: AxiosRequestConfig): Promise<R> {
         return this.baseRequest(config, this.modifyBase('DELETE', url))
     }
 
