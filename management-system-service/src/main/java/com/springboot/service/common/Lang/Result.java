@@ -2,6 +2,7 @@ package com.springboot.service.common.Lang;
 
 import lombok.Data;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.Serializable;
 
 @Data
@@ -49,7 +50,6 @@ public class Result implements Serializable {
         r.setData(data);
         return r;
     }
-
     /**
      * HTTP respond code
      */

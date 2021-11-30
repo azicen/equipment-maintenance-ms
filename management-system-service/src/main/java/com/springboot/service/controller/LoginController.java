@@ -21,7 +21,7 @@ public class LoginController {
     @Autowired
     private UserInGroupRepository userInGroupRepository;
 
-    @PostMapping("/")
+    @PostMapping("")
     public Result userLogin(@RequestHeader("id") Integer id, @RequestHeader("passwd") String passwd
             , HttpServletResponse response){
         User user = userRepository.findAllByIdAndPasswd(id, passwd);
@@ -29,6 +29,7 @@ public class LoginController {
             return Result.fail("用户不存在或密码错误");
         }
         UserInGroup uIg=userInGroupRepository.findAllByUserIdAndGroupId(user.getId(),1);
+//        System.out.println(uIg==null?"0":"1");
         HashMap<String, String> map = new HashMap<>();
         map.put("id",user.getId().toString());
         map.put("passwd",user.getPasswd());
@@ -36,7 +37,6 @@ public class LoginController {
         String token= JWTUtils.getToken(map);
         response.setHeader("Authorization",token);
         response.setHeader("Access-control-expose-Headers", "Authorization");
-//        System.out.println(token);
         return Result.success("登录成功");
     }
 }

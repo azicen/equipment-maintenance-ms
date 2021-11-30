@@ -1,6 +1,7 @@
 package com.springboot.service.controller;
 
 import cn.hutool.core.map.MapUtil;
+import com.springboot.service.annotation.TokenVerification;
 import com.springboot.service.entity.User;
 import com.springboot.service.entity.UserInGroup;
 import com.springboot.service.repository.GroupsRepository;
@@ -110,6 +111,7 @@ public class UserController {
      * @param status 修改后的状态码
      * @return 根据是否存在用户返回对应的结果,若name重复则不能修改
      */
+    @TokenVerification(group = TokenVerification.GROUP.ADMIN)
     @PostMapping("/{id}")
     public Result updateUser(@PathVariable("id") Integer id,@RequestHeader("name") String name
             ,@RequestHeader("passwd") String passwd,@RequestHeader("status")Boolean status){
