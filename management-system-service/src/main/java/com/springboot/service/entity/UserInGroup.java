@@ -1,4 +1,4 @@
-package com.springboot.service.Entity;
+package com.springboot.service.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

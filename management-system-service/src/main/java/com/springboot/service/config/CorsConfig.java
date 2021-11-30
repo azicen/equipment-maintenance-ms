@@ -1,4 +1,4 @@
-package com.springboot.service.Config;
+package com.springboot.service.config;
 
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;

@@ -4,6 +4,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTCreator;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.springboot.service.common.Lang.Result;
 
 import java.util.Calendar;
 import java.util.Map;
@@ -25,7 +26,18 @@ public class JWTUtils {
         return builder.withExpiresAt(instance.getTime()).sign(Algorithm.HMAC256(SING));
     }
 
-    public static DecodedJWT verify(String token){
-        return JWT.require(Algorithm.HMAC256(SING)).build().verify(token);
+    /**
+     * token认证登录
+     * @param token 需要认证的token
+     * @return 认证的结果
+     */
+    public static Result verify(String token){
+        DecodedJWT v = null;
+        try {
+            v = JWT.require(Algorithm.HMAC256(SING)).build().verify(token);
+        }catch (Exception e){
+            return Result.fail("token认证失败");
+        }
+        return Result.success("认证成功",v);
     }
 }

@@ -1,6 +1,6 @@
-package com.springboot.service.Repository;
+package com.springboot.service.repository;
 
-import com.springboot.service.Entity.User;
+import com.springboot.service.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 

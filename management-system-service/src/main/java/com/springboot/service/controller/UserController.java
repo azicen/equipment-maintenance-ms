@@ -1,12 +1,11 @@
-package com.springboot.service.Controller;
+package com.springboot.service.controller;
 
 import cn.hutool.core.map.MapUtil;
-import com.springboot.service.Entity.Groups;
-import com.springboot.service.Entity.User;
-import com.springboot.service.Entity.UserInGroup;
-import com.springboot.service.Repository.GroupsRepository;
-import com.springboot.service.Repository.UserInGroupRepository;
-import com.springboot.service.Repository.UserRepository;
+import com.springboot.service.entity.User;
+import com.springboot.service.entity.UserInGroup;
+import com.springboot.service.repository.GroupsRepository;
+import com.springboot.service.repository.UserInGroupRepository;
+import com.springboot.service.repository.UserRepository;
 import com.springboot.service.common.Lang.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -133,13 +132,13 @@ public class UserController {
      * @return 返回用户所在的所有权限组
      */
     @GetMapping("/{id}/group")
-    public List<Object> getUserGroup(@PathVariable("id") Integer id){
+    public Result getUserGroup(@PathVariable("id") Integer id){
         List<UserInGroup> g=userInGroupRepository.findAllByUserId(id);
-        List<Object> userInGroup=new ArrayList<>();
+        List<Integer> userInGroup=new ArrayList<>();
         g.forEach((UserInGroup u)->{
-            userInGroup.add(MapUtil.builder().put("group",u.getGroupId()).map());
+            userInGroup.add(u.getGroupId());
         });
-        return userInGroup;
+        return Result.success(userInGroup);
     }
 
     /**
@@ -166,7 +165,7 @@ public class UserController {
      * @return 返回object列表表示当前页数的数据对象
      */
     @GetMapping("/list")
-    public List<Object> getBeginToEndUser(int n, int page){
+    public Result getBeginToEndUser(int n, int page){
         Pageable pageable= PageRequest.of(page,n);
         List<User> findRes=userRepository.findAll(pageable).getContent();
         List<Object> res=new ArrayList<>();
@@ -175,6 +174,6 @@ public class UserController {
                 .put("name",u.getName())
                 .put("id",u.getId())
                 .map()));
-        return res;
+        return Result.success(res);
     }
 }

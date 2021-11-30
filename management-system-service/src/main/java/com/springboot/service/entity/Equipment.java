@@ -1,4 +1,4 @@
-package com.springboot.service.Entity;
+package com.springboot.service.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
