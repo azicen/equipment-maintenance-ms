@@ -158,6 +158,12 @@ public class UserController {
                         .put("status",user.getStatus()).map());
     }
 
+
+    @GetMapping("/list/size")
+    public Result getUserList(){
+        return Result.success(MapUtil.builder().put("size",userRepository.findAll().size()).map());
+    }
+
     /**
      * 分页查询
      * @param n 起始页数
