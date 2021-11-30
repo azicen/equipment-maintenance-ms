@@ -11,6 +11,7 @@ import com.springboot.service.common.Lang.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -39,14 +40,14 @@ public class UserController {
 
     /**
      * 添加用户
-     * @param name 用户姓名
-     * @param passwd 用户密码
-     * @return 会根据数据库中是否存在对应name的用户返回是否创建成功
+     * @param user 需要添加的用户
+     * @return 添加用户的id
      */
+    @TokenVerification(group = TokenVerification.GROUP.ADMIN)
     @PutMapping("/")
-    public Result addUser(@RequestHeader("name") String name, @RequestHeader("passwd") String passwd){
-        User user=userRepository.save(new User(null,name,passwd,false));
-        return Result.success(MapUtil.builder().put("id",user.getId()).map());
+    public Result addUser(@Validated @RequestBody User user){
+        User newUser = userRepository.save(user);
+        return Result.success(MapUtil.builder().put("id",newUser.getId()).map());
     }
 
     /**
@@ -55,6 +56,7 @@ public class UserController {
      * @param groupId 权限组id
      * @return 返回是否添加成功
      */
+    @TokenVerification(group = TokenVerification.GROUP.ADMIN)
     @PutMapping("/{id}/group/{group}")
     public Result addUserGroup(@PathVariable("id") Integer userId,@PathVariable("group") Integer groupId){
         if(userInGroupRepository.findAllByUserIdAndGroupId(userId,groupId)!=null){
@@ -78,6 +80,7 @@ public class UserController {
      * @param groupId 权限组id
      * @return 返回是否删除
      */
+    @TokenVerification(group = TokenVerification.GROUP.ADMIN)
     @DeleteMapping("/{id}/group/{group}")
     public Result deleteUserInGroup(@PathVariable("id") Integer id,@PathVariable("group") Integer groupId){
         UserInGroup uIg = userInGroupRepository.findAllByUserIdAndGroupId(id, groupId);
@@ -93,6 +96,7 @@ public class UserController {
      * @param id 要删除的用户id
      * @return 返回是否成功删除
      */
+    @TokenVerification(group = TokenVerification.GROUP.ADMIN)
     @DeleteMapping("/{id}")
     public Result deleteUser(@PathVariable("id") Integer id){
         if(!userRepository.findById(id).isPresent()){
@@ -103,26 +107,24 @@ public class UserController {
         return Result.success("删除成功");
     }
 
+
     /**
-     *  修改用户数据
-     * @param id 需要修改的用户id,由路由/api/user/id获得
-     * @param name 修改后的姓名
-     * @param passwd 修改后的密码
-     * @param status 修改后的状态码
-     * @return 根据是否存在用户返回对应的结果,若name重复则不能修改
+     * 根据id修改对应的用户信息
+     * @param id 需要 修改的用户id
+     * @param questUser 修改后的用户实体
+     * @return 返回修改后的姓名和状态
      */
     @TokenVerification(group = TokenVerification.GROUP.ADMIN)
     @PostMapping("/{id}")
-    public Result updateUser(@PathVariable("id") Integer id,@RequestHeader("name") String name
-            ,@RequestHeader("passwd") String passwd,@RequestHeader("status")Boolean status){
+    public Result updateUser(@PathVariable("id") Integer id,@RequestBody User questUser){
         Optional<User> option=userRepository.findById(id);
         if(!option.isPresent()){
             return Result.fail(Result.CODE.NOT_FOND,"未找到该用户",null);
         }
         User user=option.get();
-        user.setName(name);
-        user.setPasswd(passwd);
-        user.setStatus(status);
+        user.setName(questUser.getName());
+        user.setPasswd(questUser.getPasswd());
+        user.setStatus(questUser.getStatus());
         userRepository.save(user);
         return Result.success(MapUtil.builder().put("name",user.getName())
                 .put("status",user.getStatus()).map());
@@ -160,7 +162,10 @@ public class UserController {
                         .put("status",user.getStatus()).map());
     }
 
-
+    /**
+     * 获取用户总数
+     * @return 返回用户个数
+     */
     @GetMapping("/list/size")
     public Result getUserList(){
         return Result.success(MapUtil.builder().put("size",userRepository.findAll().size()).map());

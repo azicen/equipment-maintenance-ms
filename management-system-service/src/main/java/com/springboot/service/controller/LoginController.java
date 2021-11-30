@@ -7,6 +7,7 @@ import com.springboot.service.repository.UserRepository;
 import com.springboot.service.common.Lang.Result;
 import com.springboot.service.utils.JWTUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
@@ -22,9 +23,8 @@ public class LoginController {
     private UserInGroupRepository userInGroupRepository;
 
     @PostMapping("")
-    public Result userLogin(@RequestHeader("id") Integer id, @RequestHeader("passwd") String passwd
-            , HttpServletResponse response){
-        User user = userRepository.findAllByIdAndPasswd(id, passwd);
+    public Result userLogin(@Validated @RequestBody User u, HttpServletResponse response){
+        User user = userRepository.findAllByIdAndPasswd(u.getId(), u.getPasswd());
         if(user==null){
             return Result.fail("用户不存在或密码错误");
         }
