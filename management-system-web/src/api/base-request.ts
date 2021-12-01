@@ -19,24 +19,24 @@ export abstract class BaseRequest implements Request {
         this.instance = axios.create()
     }
 
-    public get<T = any, R = AxiosResponse<T>, D = any>(url: string, config?: AxiosRequestConfig<D>): Promise<R> {
+    public get<T = any, D = any>(url: string, config?: AxiosRequestConfig<D>): Promise<AxiosResponse<T>> {
         return this.baseRequest(config, this.modifyBase('GET', url))
     }
 
-    public delete<T = any, R = AxiosResponse<T>>(url: string, config?: AxiosRequestConfig): Promise<R> {
+    public delete<T = any>(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
         return this.baseRequest(config, this.modifyBase('DELETE', url))
     }
 
-    public head<T = any, R = AxiosResponse<T>, D = any>(url: string, config?: AxiosRequestConfig<D>): Promise<R> {
+    public head<T = any, D = any>(url: string, config?: AxiosRequestConfig<D>): Promise<AxiosResponse<T>> {
         return this.baseRequest(config, this.modifyBase('HEAD', url))
     }
 
-    public options<T = any, R = AxiosResponse<T>, D = any>(url: string, config?: AxiosRequestConfig<D>): Promise<R> {
+    public options<T = any, D = any>(url: string, config?: AxiosRequestConfig<D>): Promise<AxiosResponse<T>> {
         return this.baseRequest(config, this.modifyBase('OPTIONS', url))
     }
-    
-    public post<T = any, R = AxiosResponse<T>, D = any>
-    (url: string, data?: D, config?: AxiosRequestConfig<D>): Promise<R> {
+
+    public post<T = any, D = any>
+    (url: string, data?: D, config?: AxiosRequestConfig<D>): Promise<AxiosResponse<T>> {
         return this.baseRequest(
             config,
             this.modifyBase('POST', url),
@@ -44,8 +44,8 @@ export abstract class BaseRequest implements Request {
         )
     }
 
-    public put<T = any, R = AxiosResponse<T>, D = any>
-    (url: string, data?: D, config?: AxiosRequestConfig<D>): Promise<R> {
+    public put<T = any, D = any>
+    (url: string, data?: D, config?: AxiosRequestConfig<D>): Promise<AxiosResponse<T>> {
         return this.baseRequest(
             config,
             this.modifyBase('PUT', url),
@@ -53,8 +53,8 @@ export abstract class BaseRequest implements Request {
         )
     }
 
-    public patch<T = any, R = AxiosResponse<T>, D = any>
-    (url: string, data?: D, config?: AxiosRequestConfig<D>): Promise<R> {
+    public patch<T = any, D = any>
+    (url: string, data?: D, config?: AxiosRequestConfig<D>): Promise<AxiosResponse<T>> {
         return this.baseRequest(
             config,
             this.modifyBase('PATCH', url),
@@ -80,8 +80,8 @@ export abstract class BaseRequest implements Request {
         }
     }
 
-    public baseRequest<T = any, R = AxiosResponse<T>, D = any>
-    (config?: AxiosRequestConfig<D>, ...modifies: ModifyFunction<D>[]): Promise<R> {
+    public baseRequest<T = any, D = any>
+    (config?: AxiosRequestConfig<D>, ...modifies: ModifyFunction<D>[]): Promise<AxiosResponse<T>> {
         let conf: AxiosRequestConfig<D> = (typeof config === 'undefined') ? {} : config
         for (let i = 0; i < modifies.length; i++) {
             conf = modifies[i](conf)
