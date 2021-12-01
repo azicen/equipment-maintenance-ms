@@ -5,8 +5,8 @@ import {DetailedResponse, Response} from "@/api/response-data"
 // 后端路由
 const URL: string = "/api/v1/user"
 
-// 用户数据
-export interface UserData {
+export interface GetUserResponse {
+    id: number,
     name: string,
     status: boolean,
 }
@@ -40,12 +40,12 @@ export class UserApi extends BaseRequest {
     /**
      * 根据id查找用户
      * @param id 用户id
-     * @return UserData 返回用户数据
+     * @return GetUserResponse 返回用户数据
      */
-    public getUser(id: number): Response<UserData> {
+    public getUser(id: number): Response<{ name: string, status: boolean }> {
         return this.get(`/${id}`)
             // 消息预处理
-            .then((res: DetailedResponse<UserData>) => res.data)
+            .then((res: DetailedResponse<{ name: string, status: boolean }>) => res.data)
     }
 
     /**
@@ -60,12 +60,12 @@ export class UserApi extends BaseRequest {
      * 修改用户数据
      * @param id 需要修改的用户id,由路由/api/user/id获得
      * @param name 修改后的姓名
-     * @param passwd 修改后的密码
+     * @param status 修改后的状态码
      */
-    public updateUser(id: number, name: string, passwd: string): Response<any> {
+    public updateUser(id: number, name: string, status: boolean): Response<any> {
         const data = {
             name: name,
-            passwd: passwd,
+            status: status,
         }
         return this.post(`/${id}`, data).then((res: DetailedResponse<any>) => res.data)
     }
@@ -74,9 +74,9 @@ export class UserApi extends BaseRequest {
      * 分页查询
      * @param n 起始页数
      * @param page 当前页数有多少条数据
-     * @return UserData[] 返回用户数据集合
+     * @return GetUserResponse[] 返回用户数据集合
      */
-    public getUsers(n: number, page: number): Response<UserData[]> {
+    public getUsers(n: number, page: number): Response<GetUserResponse[]> {
         return this.get(
             `/list`,
             {
@@ -85,7 +85,7 @@ export class UserApi extends BaseRequest {
                     page: page,
                 }
             },
-        ).then((res: DetailedResponse<UserData[]>) => res.data)
+        ).then((res: DetailedResponse<GetUserResponse[]>) => res.data)
     }
 
     /**

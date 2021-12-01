@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.lang.reflect.Method;
 
-@Component
+//@Component
 public class LoginInterceptor implements HandlerInterceptor {
 
     @Override
