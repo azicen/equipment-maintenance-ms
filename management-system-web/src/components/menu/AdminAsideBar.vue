@@ -3,10 +3,10 @@
     <el-menu
         :default-active="$route.path"
         :default-openeds="[]"
-        class="el-menu-vertical-demo"
+        class="admin-aside-bar"
         text-color="#fff"
-        active-text-color="#ffd04b"
-        background-color="#545c64"
+        active-text-color="#aca885"
+        background-color="#626c66"
         router
     >
 
@@ -49,5 +49,8 @@ export default defineComponent({
 i {
   margin: 5%;
   font-size: 1.25em;
+}
+.admin-aside-bar{
+  background-color: #626c66;
 }
 </style>

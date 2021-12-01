@@ -19,7 +19,7 @@ export default defineComponent({
 
 <style scoped>
 .admin-nav-menu {
-  color: #07a6f1;
+  color: #aca885;
   font-size: 12px;
 }
 </style>

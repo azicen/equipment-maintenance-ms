@@ -37,13 +37,13 @@ html, body, #app {
 }
 
 .top-bar {
-  border: 1px #b3c0d1 solid;
-  background-color: #b3c0d1;
+  border: 1px #434a42 solid;
+  background-color: #434a42;
   width: 100%;
 }
 
 .aside-bar {
-  background-color: #b3c0d1;
+  background-color: #626c66;
   width: 200px;
   height: 100%;
   /*background-color: rgb(255, 255, 255);*/

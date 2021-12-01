@@ -1,6 +1,6 @@
 <template>
   <div class="login-view">
-    <WordRotation/>
+    <WordRotation class="login-word-rotation"/>
     <el-card class="login-view-box-card">
       <LoginForm/>
     </el-card>
@@ -22,9 +22,20 @@ export default defineComponent({
 </script>
 
 <style>
+.login-word-rotation{
+  /*margin: 0 20%;*/
+  margin: 5% 0;
+  width: 100%;
+  height: 300px;
+  display: flex;
+  display: -webkit-flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .login-view-box-card {
-  margin: 0 25%;
-  width: 480px;
+  margin: auto;
+  width: 400px;
   height: 200px;
 }
 </style>
