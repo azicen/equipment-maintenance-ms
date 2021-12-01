@@ -16,32 +16,30 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import {UserLogin} from "@/api/login/userLogin";
+import {ref} from "vue";
 
 export default {
-  data() {
-    return {
-      form: {
-        id: '',
-        password: '',
-      },
-    }
-  },
-  setup(){
+  setup() {
     const userApi = new UserLogin()
-    function login(){
+
+    let form = ref({id: 0, passwd: ''})
+
+    function login() {
       console.log("aaa")
-      userApi.Login(this.data().form.id,this.data().form.password).then(
-          (res)=>{
-            if(res.code===200){
-              alert("aaa")
-            }
-          console.log(res.data)
-        }
+      userApi.Login(form.value.id, form.value.passwd).then(
+          // (res) => {
+          //   if (res.code === 200) {
+          //     alert("aaa")
+          //   }
+          //   // console.log(res)
+          // }
       )
     }
+
     return {
+      form,
       login
     }
   },
