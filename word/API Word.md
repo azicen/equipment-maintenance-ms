@@ -12,16 +12,16 @@
 
 # 用户服务接口
 
-| 接口描述           | 请求方法 | 接口路由                   | 请求数据                                                     | 回复数据                                                     | 备注                             |
-| ------------------ | -------- | -------------------------- | ------------------------------------------------------------ | :----------------------------------------------------------- | -------------------------------- |
-| 创建用户           | PUT      | /api/user                  | {<br/>    name: string,<br/>    passwd: string,<br/>}        | {<br/>    id: uint<br/>}                                     |                                  |
-| 获取用户信息       | GET      | /api/user/:id              | id: uint                                                     | {<br/>    name: string,<br/>    status: uint,<br/>}          |                                  |
-| 修改用户信息       | POST     | /api/user/:id              | id: uint<br/>{<br/>    name: string,<br/>    status: uint,<br/>} | 无                                                           |                                  |
-| 删除用户           | DELETE   | /api/user/:id              | id: uint                                                     | 无                                                           |                                  |
-| 获取用户信息列表   | GET      | /api/user/?n=:v1&page=v2   | n: uint<br/>page: uint                                       | [<br/>    {<br/>        id: uint<br/>        name: string,<br/>        status: uint,<br/>    },<br/>    ...<br/>] | n: 每页的用户个数<br/>page: 页码 |
-| 用户加入权限组     | PUT      | /api/user/:id/group/:group | id: uint<br/>group: uint                                     | 无                                                           | id: 用户ID<br/>group: 权限组ID   |
-| 获取用户权限组列表 | GET      | /api/user/:id/group        | id: uint                                                     | [<br/>    {<br/>        group: uint,<br/>    },<br/>    ...<br/>] |                                  |
-| 用户移除权限组     | DELETE   | /api/user/:id/group/:group | id: uint<br/>group: uint                                     | 无                                                           |                                  |
+| 接口描述           | 请求方法 | 接口路由                     | 请求数据                                                     | 回复数据                                                     | 备注                             |
+| ------------------ | -------- | ---------------------------- | ------------------------------------------------------------ | :----------------------------------------------------------- | -------------------------------- |
+| 创建用户           | PUT      | /api/user                    | {<br/>    name: string,<br/>    passwd: string,<br/>}        | {<br/>    id: uint<br/>}                                     |                                  |
+| 获取用户信息       | GET      | /api/user/:id                | id: uint                                                     | {<br/>    name: string,<br/>    status: uint,<br/>}          |                                  |
+| 修改用户信息       | POST     | /api/user/:id                | id: uint<br/>{<br/>    name: string,<br/>    status: uint,<br/>} | 无                                                           |                                  |
+| 删除用户           | DELETE   | /api/user/:id                | id: uint                                                     | 无                                                           |                                  |
+| 获取用户信息列表   | GET      | /api/user/list?n=:v1&page=v2 | n: uint<br/>page: uint                                       | [<br/>    {<br/>        id: uint<br/>        name: string,<br/>        status: uint,<br/>    },<br/>    ...<br/>] | n: 每页的用户个数<br/>page: 页码 |
+| 用户加入权限组     | PUT      | /api/user/:id/group/:group   | id: uint<br/>group: uint                                     | 无                                                           | id: 用户ID<br/>group: 权限组ID   |
+| 获取用户权限组列表 | GET      | /api/user/:id/group          | id: uint                                                     | [<br/>    {<br/>        group: uint,<br/>    },<br/>    ...<br/>] |                                  |
+| 用户移除权限组     | DELETE   | /api/user/:id/group/:group   | id: uint<br/>group: uint                                     | 无                                                           |                                  |
 
 ---
 
