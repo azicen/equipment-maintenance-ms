@@ -15,7 +15,7 @@ import java.util.HashMap;
 
 @ResponseBody
 @RestController
-@RequestMapping("/login")
+@RequestMapping("/api/v1/login")
 public class LoginController {
     @Autowired
     private UserRepository userRepository;
@@ -32,7 +32,6 @@ public class LoginController {
 //        System.out.println(uIg==null?"0":"1");
         HashMap<String, String> map = new HashMap<>();
         map.put("id",user.getId().toString());
-        map.put("passwd",user.getPasswd());
         map.put("group",uIg==null?"0":"1");
         String token= JWTUtils.getToken(map);
         response.setHeader("Authorization",token);
