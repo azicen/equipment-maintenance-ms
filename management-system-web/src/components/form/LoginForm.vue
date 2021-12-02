@@ -24,6 +24,7 @@
 <script lang="ts">
 import {LoginApi} from "@/api/login/login";
 import {defineComponent, ref} from "vue";
+import {ElNotification} from "element-plus";
 
 export default defineComponent({
   setup() {
@@ -36,7 +37,11 @@ export default defineComponent({
       loginApi.login(form.value.id, form.value.passwd)
           .then((res) => {
             if (res.code === 200) {
-
+              ElNotification({
+                title: 'Success',
+                message: `登录成功`,
+                type: 'success',
+              })
             }
           })
     }
