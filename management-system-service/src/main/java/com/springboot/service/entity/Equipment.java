@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.sql.Date;
 
 @Entity
 @Data
@@ -36,11 +35,11 @@ public class Equipment {
     /**
      * 开始服役日期
      */
-    private Date startDate;
+    private long startDate;
     /**
      * 结束服务日期
      */
-    private Date deadLine;
+    private long deadLine;
     /**
      * 类型编号
      */
@@ -52,5 +51,5 @@ public class Equipment {
     /**
      * 创建日期
      */
-    private Date createDate;
+    private long createDate;
 }
