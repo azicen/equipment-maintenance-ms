@@ -21,9 +21,9 @@
     <el-table-column fixed="right" label="操作" width="120">
       <template #default="scope">
 
-        <UpdateUserDialog v-model="dialogVisible" :data="users[index]"/>
+        <UpdateUserDialog v-model="dialogVisible" :data="users[scope.$index]"/>
 
-        <el-button type="text" size="small" @click="dialogVisible = true">修改</el-button>
+        <el-button type="text" size="small" @click.prevent="dialogVisible = true">修改</el-button>
 
         <el-button type="text" size="small" @click.prevent="handleDelete(scope.$index, scope.row)">
           删除
@@ -52,7 +52,6 @@ export default defineComponent({
   },
   setup() {
     const dialogVisible = ref(false)
-    const index = ref(0)
 
     const userApi = new UserApi()
 
@@ -111,7 +110,6 @@ export default defineComponent({
       users,
       page,
       dialogVisible,
-      index,
       reviseClick,
       handleDelete,
     }
