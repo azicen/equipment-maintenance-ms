@@ -30,6 +30,8 @@ export class LoginApi extends BaseRequest {
                         localStorage.setItem('token', res.headers['authorization'])
                         // 刷新实例Token
                         this.updateToken()
+
+
                     }
                     resolve(res.data)
                 })

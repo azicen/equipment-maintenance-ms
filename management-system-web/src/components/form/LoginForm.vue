@@ -24,16 +24,18 @@
 <script lang="ts">
 import {LoginApi} from "@/api/login/login";
 import {defineComponent, ref} from "vue";
+import { useRouter } from "vue-router";
 import {ElNotification} from "element-plus";
 
 export default defineComponent({
   setup() {
+    const router = useRouter();
+
     const loginApi = new LoginApi()
 
     let form = ref({id: 0, passwd: ''})
 
     function login() {
-      console.log("aaa")
       loginApi.login(form.value.id, form.value.passwd)
           .then((res) => {
             if (res.code === 200) {
@@ -42,6 +44,15 @@ export default defineComponent({
                 message: `登录成功`,
                 type: 'success',
               })
+
+              if (form.value.id === 1) {
+                console.log('admin')
+                router.push({ path: "admin" })
+              } else {
+                console.log('user')
+                router.push({ path: "/" })
+              }
+
             }
           })
     }
