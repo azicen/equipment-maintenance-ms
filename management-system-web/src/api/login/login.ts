@@ -1,7 +1,7 @@
 import {BaseRequest} from "@/api/base-request";
 import {DetailedResponse, Response} from "@/api/response-data";
 
-const URL: string = "/login"
+const URL: string = "/api/v1/login"
 
 export interface Login {
     id: number,
