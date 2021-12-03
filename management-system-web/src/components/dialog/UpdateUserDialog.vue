@@ -63,6 +63,10 @@ export default defineComponent({
       get: () => props.data,
       set: (v) => {
         context.emit('update:data', v)
+        if (props.data === undefined) {
+          return
+        }
+        form.value = props.data
         console.log('update:data')
       }
     })

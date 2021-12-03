@@ -1,38 +1,64 @@
 <template>
 
-  <UpdateUserDialog v-model:visible="dialogVisible" v-model:data="form"/>
+  <div>
+    <el-dialog v-model="dialogVisible" :title="'修改用户 '+ dialogForm.id +' 的信息'" width="30%">
+      <el-form :model="dialogForm">
+        <el-form-item label="用户名">
+          <el-input v-model="dialogForm.name" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="账号状态">
+          <el-switch
+              v-model="dialogForm.status"
+              inline-prompt
+              active-color="#13ce66"
+              inactive-color="#ff4949"
+              active-text="Y"
+              inactive-text="N"
+          />
+        </el-form-item>
+      </el-form>
 
-  <el-table :data="users">
-
-    <el-table-column fixed prop="id" label="员工ID"/>
-
-    <el-table-column prop="name" label="姓名"/>
-
-    <el-table-column prop="tag" label="状态">
-      <template #default="scope">
-        <el-tag
-            :type="scope.row.status ? '' : 'danger'"
-            disable-transitions
-        >
-          <div v-if="scope.row.status">可使用</div>
-          <div v-else>已关闭</div>
-        </el-tag>
+      <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="dialogVisible = false">取消</el-button>
+        <el-button type="primary" @click.prevent="handleUpdate()">确定</el-button>
+      </span>
       </template>
-    </el-table-column>
+    </el-dialog>
+  </div>
 
-    <el-table-column fixed="right" label="操作" width="120">
-      <template #default="scope">
+  <div>
+    <el-button type="primary" @click.prevent="">添加用户</el-button>
+  </div>
 
-        <el-button type="text" size="small" @click.prevent="reviseClick(scope.$index)">修改</el-button>
+  <div>
+    <el-table :data="users">
+      <el-table-column fixed prop="id" label="员工ID"/>
 
-        <el-button type="text" size="small" @click.prevent="handleDelete(scope.$index, scope.row)">
-          删除
-        </el-button>
+      <el-table-column prop="name" label="姓名"/>
 
-      </template>
-    </el-table-column>
+      <el-table-column prop="tag" label="状态">
+        <template #default="scope">
+          <el-tag
+              :type="scope.row.status ? '' : 'danger'"
+              disable-transitions
+          >
+            <div v-if="scope.row.status">可使用</div>
+            <div v-else>已关闭</div>
+          </el-tag>
+        </template>
+      </el-table-column>
 
-  </el-table>
+      <el-table-column fixed="right" label="操作" width="120">
+        <template #default="scope">
+          <el-button type="text" size="small" @click.prevent="reviseClick(scope.$index)">修改</el-button>
+          <el-button type="text" size="small" @click.prevent="handleDelete(scope.$index, scope.row)">
+            删除
+          </el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+  </div>
 
 </template>
 
@@ -43,13 +69,9 @@ import {ElMessageBox, ElNotification} from 'element-plus'
 import {GetUserResponse, UserApi} from "@/api/user/user"
 import {ResponseData} from "@/api/response-data"
 
-import UpdateUserDialog from "@/components/dialog/UpdateUserDialog.vue"
-
 export default defineComponent({
   name: 'AdminUser',
-  components: {
-    UpdateUserDialog,
-  },
+  components: {},
   setup() {
     const dialogVisible = ref(false)
 
@@ -60,7 +82,7 @@ export default defineComponent({
     // 用户列表
     let users: Ref<GetUserResponse[]> = ref<GetUserResponse[]>([])
 
-    let form = ref<GetUserResponse>({id: 0, name: "xxx", status: true})
+    let dialogForm = ref<GetUserResponse>({id: 0, name: "xxx", status: true})
 
     onMounted(() => {
       userApi.getUsers(10, page).then((res) => {
@@ -69,8 +91,8 @@ export default defineComponent({
     })
 
     function reviseClick(i: number) {
-      form.value = users.value[i]
-      console.log('reviseClick', form.value)
+      dialogForm.value = users.value[i]
+      console.log('reviseClick', dialogForm.value)
       dialogVisible.value = true
     }
 
@@ -110,13 +132,37 @@ export default defineComponent({
           })
     }
 
+    // 更新用户数据
+    function handleUpdate() {
+      userApi.updateUser(dialogForm.value.id, dialogForm.value.name, dialogForm.value.status)
+          .then(() => {
+            // 修改成功提示
+            ElNotification({
+              title: 'Success',
+              message: `成功修改 ${dialogForm.value.name} 的账号`,
+              type: 'success',
+            })
+          })
+          .catch((res) => {
+            // 修改失败提示
+            ElNotification({
+              title: 'Error',
+              message: '修改失败！' + res.msg,
+              type: 'error',
+            })
+          })
+      dialogVisible.value = false
+    }
+
     return {
       users,
       page,
-      form,
+      dialogForm,
       dialogVisible,
+
       reviseClick,
       handleDelete,
+      handleUpdate,
     }
   },
 })
