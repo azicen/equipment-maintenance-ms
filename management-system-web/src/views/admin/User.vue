@@ -1,5 +1,7 @@
 <template>
 
+  <UpdateUserDialog v-model:visible="dialogVisible" v-model:data="form"/>
+
   <el-table :data="users">
 
     <el-table-column fixed prop="id" label="员工ID"/>
@@ -21,9 +23,7 @@
     <el-table-column fixed="right" label="操作" width="120">
       <template #default="scope">
 
-        <UpdateUserDialog v-model="dialogVisible" :data="users[scope.$index]"/>
-
-        <el-button type="text" size="small" @click.prevent="dialogVisible = true">修改</el-button>
+        <el-button type="text" size="small" @click.prevent="reviseClick(scope.$index)">修改</el-button>
 
         <el-button type="text" size="small" @click.prevent="handleDelete(scope.$index, scope.row)">
           删除
@@ -60,14 +60,18 @@ export default defineComponent({
     // 用户列表
     let users: Ref<GetUserResponse[]> = ref<GetUserResponse[]>([])
 
+    let form = ref<GetUserResponse>({id: 0, name: "xxx", status: true})
+
     onMounted(() => {
       userApi.getUsers(10, page).then((res) => {
         users.value = res.data
       })
     })
 
-    function reviseClick() {
-
+    function reviseClick(i: number) {
+      form.value = users.value[i]
+      console.log('reviseClick', form.value)
+      dialogVisible.value = true
     }
 
     // 点击删除按钮事件函数
@@ -109,6 +113,7 @@ export default defineComponent({
     return {
       users,
       page,
+      form,
       dialogVisible,
       reviseClick,
       handleDelete,

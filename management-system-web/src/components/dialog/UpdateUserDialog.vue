@@ -1,6 +1,6 @@
 <template>
 
-  <el-dialog v-model="dialogFormVisible" :title="'修改用户 '+ form.id +' 的信息'" width="30%">
+  <el-dialog v-model="visibleBind" :title="'修改用户 '+ form.id +' 的信息'" width="30%">
 
     <el-form :model="form">
       <el-form-item label="用户名">
@@ -20,7 +20,7 @@
 
     <template #footer>
       <span class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">取消</el-button>
+        <el-button @click="visibleBind = false">取消</el-button>
         <el-button type="primary" @click.prevent="handleUpdate()">
           确定
         </el-button>
@@ -41,24 +41,29 @@ export default defineComponent({
   components: {},
 
   props: {
-    modelValue: Boolean,
-    data: {
-      type: Object as PropType<GetUserResponse>,
-      required: true,
-    },
+    'visible': Boolean,
+    'data': Object as PropType<GetUserResponse>,
   },
 
   // 双向绑定的回调事件
-  emits: ['update:modelValue'],
+  emits: ['update:visible', 'update:data'],
 
   setup(props, context) {
     const userApi = new UserApi()
 
     // 嵌套双向绑定
-    const dialogFormVisible = computed({
-      get: () => props.modelValue,
+    const visibleBind = computed({
+      get: () => props.visible,
       set: (v) => {
-        context.emit('update:modelValue', v)
+        context.emit('update:visible', v)
+        console.log('update:visible')
+      }
+    })
+    const dataBind = computed({
+      get: () => props.data,
+      set: (v) => {
+        context.emit('update:data', v)
+        console.log('update:data')
       }
     })
 
@@ -67,16 +72,21 @@ export default defineComponent({
 
     function handleUpdate() {
       userApi.updateUser(form.value.id, form.value.name, form.value.status)
-      dialogFormVisible.value = false
+      visibleBind.value = false
     }
 
     onMounted(() => {
+      if (props.data === undefined) {
+        return
+      }
       form.value = props.data
+      console.log('UpdateUserDialog',form.value)
     })
 
     return {
       form,
-      dialogFormVisible,
+      visibleBind,
+      dataBind,
       handleUpdate,
     }
   },

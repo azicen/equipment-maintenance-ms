@@ -44,7 +44,9 @@ html, body, #app {
 
 .aside-bar {
   background-color: #626c66;
-  width: 200px;
+  width: 15%;
+  min-width: 150px;
+  max-width: 300px;
   height: 100%;
   /*background-color: rgb(255, 255, 255);*/
 }
