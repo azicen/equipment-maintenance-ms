@@ -123,7 +123,6 @@ public class UserController {
         }
         User user=option.get();
         user.setName(questUser.getName());
-        user.setPasswd(questUser.getPasswd());
         user.setStatus(questUser.getStatus());
         userRepository.save(user);
         return Result.success(MapUtil.builder().put("name",user.getName())
