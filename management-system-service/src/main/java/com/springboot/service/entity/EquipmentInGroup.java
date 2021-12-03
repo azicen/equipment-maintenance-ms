@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "tb_equipment_type")
+@Table(name = "tb_equipment_group")
 public class EquipmentInGroup {
     /**
      * id
