@@ -44,8 +44,10 @@ public class UserController {
      * @return 添加用户的id
      */
     @TokenVerification(group = TokenVerification.GROUP.ADMIN)
-    @PutMapping("/")
+    @PutMapping("")
     public Result addUser(@Validated @RequestBody User user){
+        // 默认密码
+        user.setPasswd("123456");
         User newUser = userRepository.save(user);
         return Result.success(MapUtil.builder().put("id",newUser.getId()).map());
     }
