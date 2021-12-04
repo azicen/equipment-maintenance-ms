@@ -45,7 +45,8 @@ i {
   margin: 5%;
   font-size: 1.25em;
 }
-.admin-aside-bar{
+
+.admin-aside-bar {
   background-color: #626c66;
 }
 </style>
