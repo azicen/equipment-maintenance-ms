@@ -19,11 +19,15 @@ public class EquipmentType {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     /**
-     * 设备姓名
+     * 设备类型姓名
      */
     private String name;
     /**
      * 维护周期
      */
     private Integer cycle;
+    /**
+     * 权限组编号
+     */
+    private Integer groupId;
 }
