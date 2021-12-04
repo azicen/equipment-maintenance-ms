@@ -25,7 +25,7 @@ public class Maintain {
     /**
      * 设备id
      */
-    private Integer machineId;
+    private Integer equipmentId;
     /**
      * 维护日期
      */
