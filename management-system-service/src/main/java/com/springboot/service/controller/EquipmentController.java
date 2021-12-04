@@ -1,17 +1,20 @@
 package com.springboot.service.controller;
 
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.springboot.service.annotation.TokenVerification;
 import com.springboot.service.common.Lang.Result;
 import com.springboot.service.entity.Equipment;
 import com.springboot.service.entity.EquipmentInGroup;
 import com.springboot.service.repository.EquipmentInGroupRepository;
 import com.springboot.service.repository.EquipmentRepository;
+import com.springboot.service.utils.JWTUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
@@ -34,8 +37,15 @@ public class EquipmentController {
      */
     @TokenVerification(group = TokenVerification.GROUP.ADMIN)
     @PutMapping("")
-    public Result addEquipment(@Validated @RequestBody Equipment equipment) {
+    public Result addEquipment(@Validated @RequestBody Equipment equipment, HttpServletRequest request) {
+        String token=request.getHeader("Authorization");
+        if(token.isEmpty()){
+            return Result.fail("为找到token");
+        }
+        Result tokenV = JWTUtils.verify(token);
+        String id = ((DecodedJWT) tokenV.getData()).getClaim("id").asString();
         equipment.setCreateDate(new Timestamp(System.currentTimeMillis()).getTime());
+        equipment.setUserId(Integer.parseInt(id));
         System.out.println(equipment);
         return Result.success(equipmentRepository.save(equipment));
     }

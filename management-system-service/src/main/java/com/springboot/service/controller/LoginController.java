@@ -26,7 +26,7 @@ public class LoginController {
     public Result userLogin(@Validated @RequestBody User u, HttpServletResponse response){
         User user = userRepository.findAllByIdAndPasswd(u.getId(), u.getPasswd());
         if(user==null){
-            return Result.fail("用户不存在或密码错误");
+            return Result.fail("用户不存在或密码错误",u);
         }
         UserInGroup uIg=userInGroupRepository.findAllByUserIdAndGroupId(user.getId(),1);
 //        System.out.println(uIg==null?"0":"1");
