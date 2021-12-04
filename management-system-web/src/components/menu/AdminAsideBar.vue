@@ -10,6 +10,11 @@
         router
     >
 
+      <el-menu-item index="/admin/maintain">
+        <i class="ri-user-3-fill"></i>
+        <span>维护信息管理</span>
+      </el-menu-item>
+
       <el-menu-item index="/admin/user">
         <i class="ri-user-3-fill"></i>
         <span>用户管理</span>
@@ -18,16 +23,6 @@
       <el-menu-item index="/admin/equipment">
         <i class="ri-user-3-fill"></i>
         <span>设备管理</span>
-      </el-menu-item>
-
-      <el-menu-item index="/admin/group">
-        <i class="ri-user-3-fill"></i>
-        <span>权限组管理</span>
-      </el-menu-item>
-
-      <el-menu-item index="/admin/maintain">
-        <i class="ri-user-3-fill"></i>
-        <span>维护信息管理</span>
       </el-menu-item>
 
     </el-menu>
