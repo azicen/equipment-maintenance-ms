@@ -24,7 +24,7 @@
 <script lang="ts">
 import {LoginApi} from "@/api/login/login";
 import {defineComponent, ref} from "vue";
-import { useRouter } from "vue-router";
+import {useRouter} from "vue-router";
 import {ElNotification} from "element-plus";
 
 export default defineComponent({
@@ -45,15 +45,31 @@ export default defineComponent({
                 type: 'success',
               })
 
+              // 跳转路由
               if (form.value.id === 1) {
                 console.log('admin')
-                router.push({ path: "admin" })
+                router.push({path: "admin"})
               } else {
                 console.log('user')
-                router.push({ path: "/" })
+                router.push({path: "/"})
               }
 
+            } else {
+              // 后端回复登录失败
+              ElNotification({
+                title: 'Error',
+                message: '登录失败！' + res.msg,
+                type: 'error',
+              })
             }
+          })
+          .catch(() => {
+            // 请求发送失败
+            ElNotification({
+              title: 'Error',
+              message: '登录失败！',
+              type: 'error',
+            })
           })
     }
 

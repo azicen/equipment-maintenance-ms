@@ -25,14 +25,14 @@ export class UserApi extends BaseRequest {
     /**
      * 添加用户
      * @param name 用户姓名
-     * @param passwd 用户密码
+     * @param status 账号状态
      * @return { id: number } 创建成功后的用户ID
      */
-    public addUser(name: string, passwd: string): Response<{ id: number }> {
+    public addUser(name: string, status: boolean): Response<{ id: number }> {
         // 添加的用户数据
         const data = {
             name: name,
-            passwd: passwd,
+            status: status,
         }
         return this.put("", data).then((res: DetailedResponse<{ id: number }>) => res.data)
     }
@@ -113,5 +113,13 @@ export class UserApi extends BaseRequest {
      */
     public deleteUserGroup(userId: number, groupId: number): Response<any> {
         return this.delete(`/${userId}/group/${groupId}`).then((res: DetailedResponse<any>) => res.data)
+    }
+
+    /**
+     * 获取用户总数
+     * @return 返回用户个数
+     */
+    public getUserListSize(): Response<{ size: number }> {
+        return this.get('/list/size').then((res: DetailedResponse<{ size: number }>) => res.data)
     }
 }
