@@ -11,11 +11,11 @@ export interface GetEquipmentResponse {
     location: string,
     status: string,
     date: number,
-    start_date: number,
-    deadline: number,
-    type_id: number,
-    user_id: number,
-    maintainer_id: number, // 最后维护者 ID
+    createDate: number,
+    deadLine: number,
+    typeId: number,
+    userId: number,
+    maintainerId: number, // 最后维护者 ID
 }
 
 export class EquipmentApi extends BaseRequest {

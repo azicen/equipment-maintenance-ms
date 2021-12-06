@@ -18,7 +18,7 @@
 
         <el-form-item label="结束服务日期">
           <el-date-picker
-              v-model="addForm.deadline"
+              v-model="addForm.deadLine"
               type="date"
               placeholder="一年后"
               :default-value="new Date(new Date().getFullYear()+1)"
@@ -27,7 +27,7 @@
         </el-form-item>
 
         <el-form-item label="类型">
-          <el-input v-model="addForm.type_id" autocomplete="off"></el-input>
+          <el-input v-model="addForm.typeId" autocomplete="off"></el-input>
         </el-form-item>
 
       </el-form>
@@ -53,10 +53,10 @@
       <el-table-column prop="name" label="名称"/>
       <el-table-column prop="location" label="地点"/>
       <el-table-column prop="status" label="状况"/>
-      <el-table-column prop="start_date" label="开始服役日期"/>
-      <el-table-column prop="deadline" label="结束服务日期"/>
-      <el-table-column prop="type_id" label="类型"/>
-      <el-table-column prop="user_id" label="创建人员编号"/>
+      <el-table-column prop="createDate" label="开始服役日期"/>
+      <el-table-column prop="deadLine" label="结束服务日期"/>
+      <el-table-column prop="typeId" label="类型"/>
+      <el-table-column prop="userId" label="创建人员编号"/>
 
       <el-table-column fixed="right" label="操作" width="120">
         <template #default="scope">
@@ -112,8 +112,8 @@ export default defineComponent({
       name: "",
       location: "",
       status: "",
-      deadline: new Date(new Date().getFullYear() + 1),
-      type_id: 0,
+      deadLine: new Date(new Date().getFullYear() + 1),
+      typeId: 0,
     })
 
     function resetAddForm() {
@@ -121,8 +121,8 @@ export default defineComponent({
         name: "",
         location: "",
         status: "",
-        deadline: new Date(new Date().getFullYear() + 1),
-        type_id: 0,
+        deadLine: new Date(new Date().getFullYear() + 1),
+        typeId: 0,
       }
     }
 
@@ -153,8 +153,8 @@ export default defineComponent({
           addForm.value.name,
           addForm.value.location,
           addForm.value.status,
-          addForm.value.deadline.getTime(),
-          addForm.value.type_id
+          addForm.value.deadLine.getTime(),
+          addForm.value.typeId
       )
           .then((res) => {
             if (res.code === 200) {
