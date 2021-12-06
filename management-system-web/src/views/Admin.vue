@@ -47,7 +47,10 @@ html, body, #app {
   width: 15%;
   min-width: 150px;
   max-width: 300px;
-  height: 100%;
+  height: 100vh;
   /*background-color: rgb(255, 255, 255);*/
+}
+.el-menu{
+  border-right-width: 0;
 }
 </style>

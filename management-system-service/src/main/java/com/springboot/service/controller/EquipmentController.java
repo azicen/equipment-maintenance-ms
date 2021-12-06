@@ -147,6 +147,11 @@ public class EquipmentController {
         return res==null?Result.fail("未找到对应数据"):Result.success(res);
     }
 
+    @GetMapping("/list/size")
+    public Result getListNum(){
+        return Result.success(equipmentRepository.findAll().size());
+    }
+
     /**
      * 删除对应设备的分组
      * @param id 设备id
