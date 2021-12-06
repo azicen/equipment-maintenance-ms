@@ -85,10 +85,24 @@
 
 <script lang="ts">
 import {defineComponent, onBeforeMount, onMounted, ref} from 'vue'
-import {EquipmentApi, GetEquipmentResponse} from "@/api/equipment/equipment";
+import {EquipmentApi} from "@/api/equipment/equipment";
 import {ElMessageBox, ElNotification} from "element-plus";
 import {GetUserResponse} from "@/api/user/user";
 import {ResponseData} from "@/api/response-data";
+import dayjs from "dayjs";
+
+export interface Data {
+  id: number,
+  name: string,
+  location: string,
+  status: string,
+  date: string,
+  createDate: string,
+  deadLine: string,
+  typeId: number,
+  userId: number,
+  maintainerId: number, // 最后维护者 ID
+}
 
 export default defineComponent({
   name: 'AdminEquipment',
@@ -106,7 +120,7 @@ export default defineComponent({
     let page = ref(1)
 
     // 设备列表
-    let equipments = ref<GetEquipmentResponse[]>([])
+    let equipments = ref<Data[]>([])
 
     let addForm = ref({
       name: "",
@@ -143,7 +157,21 @@ export default defineComponent({
     function updatePage() {
       equipmentApi.getEquipments(pageSize.value, page.value - 1)
           .then((res) => {
-            equipments.value = res.data
+            equipments.value = []
+            for (let i = 0; i < res.data.length; i++) {
+              equipments.value.push({
+                id: res.data[i].id,
+                name: res.data[i].name,
+                location: res.data[i].location,
+                status: res.data[i].status,
+                date: dayjs(res.data[i].date).format('YYYY-MM-DD'),
+                createDate: dayjs(res.data[i].createDate).format('YYYY-MM-DD'),
+                deadLine: dayjs(res.data[i].deadLine).format('YYYY-MM-DD'),
+                typeId: res.data[i].typeId,
+                userId: res.data[i].userId,
+                maintainerId: 0,
+              })
+            }
           })
     }
 
